@@ -1,0 +1,53 @@
+
+.hero-section {
+  padding: 20px;
+  text-align: center;
+}
+
+.book-section {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.book-button {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 5px;
+}
+
+.slider-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.card-slider {
+  display: flex;
+  overflow: hidden;
+  width: 100%; /* Adjust based on card width */
+  gap: 16px;
+}
+
+.card-item {
+  flex: 0 0 auto;
+  width: 300px;
+  transition: transform 0.5s ease-in-out;
+}
+
+.nav-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+
+.prev {
+  left: -40px; /* Adjust position */
+}
+
+.next {
+  right: -40px; /* Adjust position */
+}
+

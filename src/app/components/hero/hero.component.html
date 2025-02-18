@@ -1,0 +1,35 @@
+@let forwardDisabled = this.currentIndex === this.visibleProducts.length - 1;
+@let backwardsDisabled = this.currentIndex === this.products.length - 1;
+
+<div class="hero-section">
+  <h2>Styles samples</h2>
+  <div class="book-section">
+    <button class="book-button" mat-button>
+      <mat-icon>book_online</mat-icon>
+      <span><a routerLink="/booking">Book Now.</a></span>
+    </button>
+  </div>
+  <div class="slider-container">
+    <button (click)="prevCard()" [disabled]="forwardDisabled"
+            class="nav-button prev"
+            mat-icon-button>
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <div class="card-slider">
+      <mat-card *ngFor="let product of visibleProducts" class="card-item">
+        <img [alt]="product.name" [src]="product.image" mat-card-image/>
+        <mat-card-content>
+          <h3>{{ product.name }}</h3>
+          <p>{{ product.description }}</p>
+        </mat-card-content>
+        <mat-card-actions>
+          <button color="primary" mat-button>Learn More</button>
+        </mat-card-actions>
+      </mat-card>
+    </div>
+    <button (click)="nextCard()" [disabled]="backwardsDisabled" class="nav-button next"
+            mat-icon-button>
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+</div>

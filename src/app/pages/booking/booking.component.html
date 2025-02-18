@@ -1,0 +1,81 @@
+<div class="booking-page">
+  <h2>Book an Appointment</h2>
+  <mat-stepper #stepper [linear]="true" orientation="vertical">
+    <!-- Step 1: Select Service -->
+    <mat-step [stepControl]="serviceFormGroup">
+      <form [formGroup]="serviceFormGroup">
+        <ng-template matStepLabel>Select a Service</ng-template>
+        <h3>Select a Service</h3>
+        <mat-form-field>
+          <mat-select formControlName="service" placeholder="choose a service">
+            <mat-option>--</mat-option>
+            @for (service of services; track service) {
+              <mat-option (click)="selectService(service)" [value]="service.name">{{ service.name }}
+                - {{ service.price | currency }}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        <div class="button-container">
+          <button color="primary" mat-raised-button matStepperNext>Next</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- Step 2: Select Date and Time -->
+    <mat-step [stepControl]="dateTimeFormGroup">
+      <form [formGroup]="dateTimeFormGroup">
+        <ng-template matStepLabel>Select Date and Time</ng-template>
+        <h3>Select Date and Time</h3>
+        <mat-form-field>
+          <input [matDatepicker]="picker" formControlName="date" matInput placeholder="Choose a date">
+          <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select formControlName="time" placeholder="Select a time">
+            <mat-option *ngFor="let time of availableTimes" [value]="time">
+              {{ time }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="button-container">
+          <button color="primary" mat-raised-button matStepperNext>Next</button>
+          <button mat-button matStepperPrevious>Back</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- Step 3: Enter Details -->
+    <mat-step [stepControl]="detailsFormGroup">
+      <form [formGroup]="detailsFormGroup">
+        <ng-template matStepLabel>Enter Your Details</ng-template>
+        <h3>Enter Your Details</h3>
+        <mat-form-field>
+          <input formControlName="name" matInput placeholder="Your Name">
+        </mat-form-field>
+        <mat-form-field>
+          <input formControlName="phone" matInput placeholder="Phone Number">
+        </mat-form-field>
+        <mat-form-field>
+          <input formControlName="email" matInput placeholder="Email">
+        </mat-form-field>
+        <div class="button-container">
+          <button (click)="confirmBooking()" color="primary" mat-raised-button>Confirm Booking</button>
+          <button mat-button matStepperPrevious>Back</button>
+        </div>
+      </form>
+    </mat-step>
+
+    <!-- Step 4: Confirmation -->
+    <mat-step>
+      <ng-template matStepLabel>Confirmation</ng-template>
+      <h3>Booking Confirmed!</h3>
+      <p>Thank you, {{ detailsFormGroup.value?.name }}! Your appointment for {{ selectedService?.name }}
+        on {{ selectedDate | date }} at {{ selectedTime }} is confirmed.</p>
+      <div class="button-container">
+        <button color="primary" mat-raised-button routerLink="/products">Back to Products</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
+</div>

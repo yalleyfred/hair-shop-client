@@ -1,0 +1,49 @@
+
+:host {
+  .toolbar {
+    background-color: #d19754;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /*padding-block: 5px;*/
+    color: white;
+
+    #logo {
+      /*flex: 1;*/
+    }
+
+    /*.nav-bar {*/
+    /*  flex: 4;*/
+    /*}*/
+
+
+    ul {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .nav-list {
+        list-style-type: none;
+        margin-right: 30px;
+        display: flex;
+        align-items: center;
+      }
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      .options {
+        display: flex;
+        align-items: center;
+        margin-right: 20px;
+      }
+    }
+  }
+
+}
+
+
+
