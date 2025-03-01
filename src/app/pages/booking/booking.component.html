@@ -61,7 +61,7 @@
           <input formControlName="email" matInput placeholder="Email">
         </mat-form-field>
         <div class="button-container">
-          <button (click)="confirmBooking()" color="primary" mat-raised-button>Confirm Booking</button>
+          <button (click)="confirmBooking()" color="primary" mat-raised-button matStepperNext>Confirm Booking</button>
           <button mat-button matStepperPrevious>Back</button>
         </div>
       </form>
@@ -74,7 +74,7 @@
       <p>Thank you, {{ detailsFormGroup.value?.name }}! Your appointment for {{ selectedService?.name }}
         on {{ selectedDate | date }} at {{ selectedTime }} is confirmed.</p>
       <div class="button-container">
-        <button color="primary" mat-raised-button routerLink="/products">Back to Products</button>
+        <button color="primary" mat-raised-button matDialogClose>Close</button>
       </div>
     </mat-step>
   </mat-stepper>

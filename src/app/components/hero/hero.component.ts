@@ -1,9 +1,12 @@
-import {Component} from '@angular/core';
+import {Component, inject} from '@angular/core';
 import {MatCard, MatCardActions, MatCardContent, MatCardImage} from '@angular/material/card';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {NgForOf} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
 import {RouterLink} from '@angular/router';
+import {DialogService} from '../../service/dialog/dialog.service';
+import {BookingComponent} from '../../pages/booking/booking.component';
+import {BookingListComponent} from '../bookings-list/booking-list.component';
 
 // import {a} from '../../../../public/r69rcnaj4ibdawjovkwf-Square.png'
 
@@ -17,9 +20,7 @@ import {RouterLink} from '@angular/router';
     NgForOf,
     MatIcon,
     MatIconButton,
-    MatCardImage,
-    RouterLink
-  ],
+    MatCardImage,],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.css'
 })
@@ -50,6 +51,10 @@ export class HeroComponent {
   currentIndex = 2;
   visibleProducts: any = []
 
+  public isUserActive: boolean = !!localStorage.getItem('user');
+
+  public sideDialogService = inject(DialogService);
+
   ngOnInit() {
     this.visibleProducts = this.products.slice(0, 3); // Show three cards at a time
     console.log('visProd', this.visibleProducts);
@@ -71,12 +76,24 @@ export class HeroComponent {
     }
   }
 
-  updateVisibleProducts() {
+  public updateVisibleProducts() {
     this.visibleProducts = this.products.slice(
       this.currentIndex - 2,
       this.currentIndex + 1
     );
     console.log('here', this.visibleProducts);
 
+  }
+
+  public openBooking() {
+    this.sideDialogService.open(BookingComponent);
+  }
+
+  public showAllBooking() {
+    this.sideDialogService.open(BookingListComponent);
+  }
+
+  public showAllProducts() {
+    this.sideDialogService.open(BookingListComponent);
   }
 }

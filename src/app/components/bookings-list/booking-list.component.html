@@ -1,0 +1,69 @@
+<div class="container">
+  <h2>Booking</h2>
+  <table [dataSource]="bookings" class="mat-elevation-z8" mat-table>
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th *matHeaderCellDef mat-header-cell>ID</th>
+      <td *matCellDef="let booking" mat-cell>{{ booking.id.slice(0, 6) }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th *matHeaderCellDef mat-header-cell>Name</th>
+      <td *matCellDef="let booking" mat-cell>{{ booking.name }}</td>
+    </ng-container>
+
+    <!-- Service Type Column -->
+    <ng-container matColumnDef="serviceType">
+      <th *matHeaderCellDef mat-header-cell>Service Type</th>
+      <td *matCellDef="let booking" mat-cell>{{ booking.serviceType }}</td>
+    </ng-container>
+
+    <!-- Booking Date Column -->
+    <ng-container matColumnDef="bookingDate">
+      <th *matHeaderCellDef mat-header-cell>Booking Date</th>
+      <td *matCellDef="let booking" mat-cell>{{ booking.appointmentDate }}</td>
+    </ng-container>
+
+    <!-- Time Column -->
+    <ng-container matColumnDef="bookingTime">
+      <th *matHeaderCellDef mat-header-cell>Time</th>
+      <td *matCellDef="let booking" mat-cell>{{ booking.appointmentTime }}</td>
+    </ng-container>
+
+
+    <!-- Price Column -->
+    <ng-container matColumnDef="price">
+      <th *matHeaderCellDef mat-header-cell>Price</th>
+      <td *matCellDef="let booking" mat-cell>{{ booking.price }}</td>
+    </ng-container>
+
+
+    <!--    &lt;!&ndash; Status Column &ndash;&gt;-->
+    <!--    <ng-container matColumnDef="status">-->
+    <!--      <th *matHeaderCellDef mat-header-cell>Status</th>-->
+    <!--      <td *matCellDef="let booking" mat-cell>{{ booking.status }}</td>-->
+    <!--    </ng-container>-->
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th *matHeaderCellDef mat-header-cell>Actions</th>
+      <td *matCellDef="let booking" mat-cell>
+        <button (click)="editBooking(booking)" color="primary" mat-icon-button>
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button (click)="deleteBooking(booking)" color="warn" mat-icon-button>
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Header and Row Definitions -->
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+  </table>
+</div>
+
+<div class="close-button">
+  <button color="primary" mat-dialog-close mat-raised-button>close</button>
+</div>

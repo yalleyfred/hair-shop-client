@@ -1,0 +1,17 @@
+.container {
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+}
+
+button {
+  margin: 0 5px;
+}
+
+.close-button {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}

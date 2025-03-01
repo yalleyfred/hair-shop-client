@@ -3,15 +3,23 @@
     <a routerLink="/">logo</a>
   </div>
   <div class="nav-bar">
-    <ul>
-      <li class="nav-list"><mat-icon>bookings</mat-icon><span><a routerLink="/booking">Book appointment</a></span></li>
-      <li class="nav-list"><mat-icon>inventory</mat-icon><span><a routerLink="/products">Products</a></span></li>
-    </ul>
   </div>
   <div>
+    {{isAuthenticated$ | async}}
     <div class="controls">
-      <div class="options"><mat-icon>person</mat-icon> <span>profile</span></div>
-      <div class="options"><mat-icon>settings</mat-icon><span>settings</span></div>
-    </div>
+      @if(!(isAuthenticated$ | async)) {
+        <div class="options">
+          <mat-icon>login</mat-icon>
+          <span><a routerLink="/login">Login</a></span>
+        </div>
+        <!--      <div class="options"><mat-icon>person</mat-icon> <span>profile</span></div>-->
+          <!--      <div class="options"><mat-icon>settings</mat-icon><span>settings</span></div>-->
+<!--        </div>-->
+      } @else {
+        <div (click)="logout()">
+          <mat-icon>logout</mat-icon>
+          <span><a routerLink="">Logout</a></span>
+        </div>
+      }
   </div>
 </div>

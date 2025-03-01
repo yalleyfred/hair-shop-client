@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {MatFormField} from '@angular/material/form-field';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
-import {MatNativeDateModule, MatOption, MatRipple} from '@angular/material/core';
+import {MatNativeDateModule, MatOption} from '@angular/material/core';
 import {
   MatDatepicker,
   MatDatepickerInput,
@@ -11,10 +11,11 @@ import {
 } from '@angular/material/datepicker';
 import {MatSelect} from '@angular/material/select';
 import {MatInput, MatInputModule} from '@angular/material/input';
-import {CurrencyPipe, DatePipe, NgForOf, NgIf} from '@angular/common';
-import {MatList, MatListItem} from '@angular/material/list';
-import {RouterLink} from '@angular/router';
+import {CurrencyPipe, DatePipe, NgForOf} from '@angular/common';
 import {MatStep, MatStepLabel, MatStepper, MatStepperNext, MatStepperPrevious} from '@angular/material/stepper';
+import {BookingService} from '../../service/bookings/bookings.service';
+import {ServiceType, ServiceTypeEnum} from '../../models/booking.model';
+import {MatDialogClose} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-booking',
@@ -29,7 +30,6 @@ import {MatStep, MatStepLabel, MatStepper, MatStepperNext, MatStepperPrevious} f
     MatDatepickerInput,
     MatInput,
     NgForOf,
-    RouterLink,
     CurrencyPipe,
     DatePipe,
     MatStep,
@@ -41,26 +41,27 @@ import {MatStep, MatStepLabel, MatStepper, MatStepperNext, MatStepperPrevious} f
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,
+    MatDialogClose,
   ],
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.css'
 })
-export class BookingComponent {
+export class BookingComponent implements OnInit, OnDestroy {
   public serviceFormGroup: FormGroup;
   public dateTimeFormGroup: FormGroup;
   public detailsFormGroup: FormGroup;
 
-  public services = [
-    {name: 'Haircut', price: 30},
-    {name: 'Coloring', price: 60},
-    {name: 'Styling', price: 40},
+  public services: ServiceType[] = [
+    {name: ServiceTypeEnum.twisting, price: 30},
+    // {name: 'Coloring', price: 60},
+    // {name: 'Styling', price: 40},
   ];
   public selectedService: any;
   public selectedDate: Date = new Date();
   public selectedTime: string = '';
   public availableTimes = ['10:00 AM', '12:00 PM', '2:00 PM', '4:00 PM'];
 
-  constructor(private _formBuilder: FormBuilder) {
+  constructor(private _formBuilder: FormBuilder, public bookingService: BookingService) {
     this.serviceFormGroup = this._formBuilder.group({
       service: ['', Validators.required],
     });
@@ -75,6 +76,13 @@ export class BookingComponent {
     });
   }
 
+  public ngOnInit() {
+
+  }
+
+  public ngOnDestroy() {
+  }
+
   public selectService(service: any) {
     this.selectedService = service;
     this.serviceFormGroup.get('service')?.setValue(service.name);
@@ -82,14 +90,16 @@ export class BookingComponent {
 
   public confirmBooking() {
     if (this.detailsFormGroup.valid) {
-      console.log('Booking Confirmed:', {
-        service: this.selectedService,
-        date: this.dateTimeFormGroup.value.date,
-        time: this.dateTimeFormGroup.value.time,
+      return this.bookingService.createBooking({
+        serviceType: this.selectedService.name,
+        price: this.selectedService.price,
+        appointmentTime: this.dateTimeFormGroup.value.time,
+        appointmentDate: this.dateTimeFormGroup.value.date,
         name: this.detailsFormGroup.value.name,
         phone: this.detailsFormGroup.value.phone,
         email: this.detailsFormGroup.value.email,
-      });
+      })
     }
+    return '';
   }
 }

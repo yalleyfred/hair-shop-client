@@ -1,0 +1,29 @@
+<div class="login-container">
+  <div class="login-card">
+    <div>Login</div>
+    <form #loginForm=ngForm (ngSubmit)="submit()">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input [(ngModel)]="loginData.email" email id="email" name="email" placeholder="Enter your email" required
+               type="email">
+      </div>
+      @if (loginForm.submitted && loginForm.form.controls['email'].errors) {
+        <div class="error-message">Please enter a valid email</div>
+      }
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input [(ngModel)]="loginData.password" id="password" name="password" placeholder="Enter your password" required
+               type="password">
+      </div>
+      @if (loginForm.submitted && loginForm.form.controls['password'].errors) {
+        <div class="error-message">password is required</div>
+      }
+      <button [disabled]="!loginForm.form.valid" type="submit">Login</button>
+      @if (errorMessage) {
+        <div class="error-message">
+          {{ errorMessage }}
+        </div>
+      }
+    </form>
+  </div>
+</div>

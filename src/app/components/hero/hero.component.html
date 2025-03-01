@@ -4,10 +4,22 @@
 <div class="hero-section">
   <h2>Styles samples</h2>
   <div class="book-section">
-    <button class="book-button" mat-button>
-      <mat-icon>book_online</mat-icon>
-      <span><a routerLink="/booking">Book Now.</a></span>
-    </button>
+    @if (!isUserActive) {
+      <button class="book-button" mat-button>
+        <mat-icon>book_online</mat-icon>
+        <span><a (click)="openBooking()">Book Now.</a></span>
+      </button>
+    } @else {
+      <button class="book-button" mat-button>
+        <mat-icon>book_online</mat-icon>
+        <span><a (click)="showAllBooking()">Booking List</a></span>
+      </button>
+      <button class="book-button" mat-button>
+        <mat-icon>book_online</mat-icon>
+        <span><a (click)="showAllProducts()">Products List</a></span>
+      </button>
+    }
+
   </div>
   <div class="slider-container">
     <button (click)="prevCard()" [disabled]="forwardDisabled"

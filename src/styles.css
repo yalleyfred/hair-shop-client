@@ -28,3 +28,7 @@ mat-card {
   background-color: #ffffff !important;
   color: black;
 }
+
+.cdk-overlay-pane.mat-mdc-dialog-panel {
+  max-width: 100% !important;
+}
