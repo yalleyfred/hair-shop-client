@@ -1,0 +1,19 @@
+.container {
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  overflow-x: auto; /* Enable horizontal scrolling for small screens */
+}
+
+button {
+  margin: 0 5px;
+}
+
+.close-button {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+}
+

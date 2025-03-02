@@ -1,0 +1,80 @@
+.product-form-card {
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+button {
+  margin: 0 auto;
+  display: block; /* Ensure the button is centered */
+}
+
+input[type='file'] {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.close-button {
+  display: flex;
+  justify-content: flex-end;
+  padding: 1rem;
+}
+
+.close-button button {
+  margin: 0;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 768px) {
+  .product-form-card {
+    margin: 1rem auto;
+    padding: 0.5rem;
+  }
+
+  mat-form-field {
+    margin-bottom: 0.75rem;
+  }
+
+  button {
+    width: 100%; /* Make button full width on small screens */
+    margin-top: 0.5rem;
+  }
+
+  input[type='file'] {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .close-button {
+    padding: 0.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .product-form-card {
+    margin: 0.5rem auto;
+    padding: 0.25rem;
+  }
+
+  mat-form-field {
+    margin-bottom: 0.5rem;
+  }
+
+  button {
+    margin-top: 0.25rem;
+  }
+
+  input[type='file'] {
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .close-button {
+    padding: 0.25rem;
+  }
+}

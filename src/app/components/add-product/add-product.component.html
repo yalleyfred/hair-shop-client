@@ -1,0 +1,80 @@
+<div class="close-button">
+  <button color="primary" mat-dialog-close mat-raised-button>X</button>
+</div>
+<mat-card class="product-form-card">
+  <mat-card-header>
+    <mat-card-title>Add Product</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form (ngSubmit)="onSubmit()" [formGroup]="productForm">
+      <!-- Name Field -->
+      <mat-form-field appearance="fill">
+        <mat-label>Product Name</mat-label>
+        <input formControlName="name" matInput placeholder="Enter product name"/>
+        <mat-error *ngIf="productForm.get('name')?.hasError('required')">
+          Name is required
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Price Field -->
+      <mat-form-field appearance="fill">
+        <mat-label>Price</mat-label>
+        <input
+          formControlName="price"
+          matInput
+          placeholder="Enter price"
+          type="number"
+        />
+        <mat-error *ngIf="productForm.get('price')?.hasError('required')">
+          Price is required
+        </mat-error>
+        <mat-error *ngIf="productForm.get('price')?.hasError('min')">
+          Price must be greater than 0
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Description Field -->
+      <mat-form-field appearance="fill">
+        <mat-label>Description</mat-label>
+        <textarea
+          formControlName="description"
+          matInput
+          placeholder="Enter product description"
+        ></textarea>
+        <mat-error *ngIf="productForm.get('description')?.hasError('required')">
+          Description is required
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Image Upload Field -->
+      <div>
+        <label for="image">Product Image</label>
+        <input
+          (change)="onFileChange($event)"
+          accept="image/*"
+          id="image"
+          type="file"
+        />
+        <mat-error *ngIf="productForm.get('image')?.hasError('required')">
+          Image is required
+        </mat-error>
+      </div>
+
+      <!-- Submit Button -->
+      <button
+        [disabled]="productForm.invalid"
+        color="primary"
+        mat-raised-button
+        type="submit"
+      >
+        Add Product
+      </button>
+
+      <ng-container *ngIf="errorMessage">
+        <p>{{ errorMessage }}</p>
+      </ng-container>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+

@@ -22,13 +22,13 @@
     <!-- Booking Date Column -->
     <ng-container matColumnDef="bookingDate">
       <th *matHeaderCellDef mat-header-cell>Booking Date</th>
-      <td *matCellDef="let booking" mat-cell>{{ booking.appointmentDate }}</td>
+      <td *matCellDef="let booking" mat-cell>{{ booking.appointmentDate | date }}</td>
     </ng-container>
 
     <!-- Time Column -->
     <ng-container matColumnDef="bookingTime">
       <th *matHeaderCellDef mat-header-cell>Time</th>
-      <td *matCellDef="let booking" mat-cell>{{ booking.appointmentTime }}</td>
+      <td *matCellDef="let booking" mat-cell>{{ booking.appointmentTime.slice(0, 5) }}</td>
     </ng-container>
 
 

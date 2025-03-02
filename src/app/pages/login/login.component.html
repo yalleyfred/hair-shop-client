@@ -1,4 +1,24 @@
 <div class="login-container">
+  <mat-card class="info-card">
+    <mat-card-header>
+      <mat-card-title>Welcome!</mat-card-title>
+      <mat-card-subtitle>Important Information</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="logo">
+        <!--        <img [src]="imageUrl" alt="logo" height="1080" width="1080"/>-->
+      </div>
+      <p>
+        <mat-icon>home</mat-icon>
+        If you are a <strong>customer</strong>, please go to the
+        <a routerLink="/">Home Page</a>.
+      </p>
+      <p>
+        <mat-icon>admin_panel_settings</mat-icon>
+        The <strong>Login Page</strong> is intended for <strong>admin users</strong> only.
+      </p>
+    </mat-card-content>
+  </mat-card>
   <div class="login-card">
     <div>Login</div>
     <form #loginForm=ngForm (ngSubmit)="submit()">
@@ -24,6 +44,8 @@
           {{ errorMessage }}
         </div>
       }
+
+
     </form>
   </div>
 </div>

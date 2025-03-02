@@ -3,6 +3,7 @@
   .toolbar {
     background-color: #d19754;
     display: flex;
+    flex: 1;
     justify-content: space-between;
     align-items: center;
     padding-block: 5px;
@@ -15,6 +16,10 @@
     /*.nav-bar {*/
     /*  flex: 4;*/
     /*}*/
+
+    a:hover {
+      cursor: pointer;
+    }
 
 
     ul {

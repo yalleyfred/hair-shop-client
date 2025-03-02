@@ -18,7 +18,7 @@ export class AuthService {
     return this.http.post(`${endpoint}/auth/login`, loginDto).subscribe((res: any) => {
         console.log('response', res);
         localStorage.setItem('user', res.access_token);
-        return this.router.navigateByUrl('')
+        this.router.navigate(['/'])
       },
       (error) => {
         this.errorMessage = error.error?.message || 'Login failed. Please try again.';

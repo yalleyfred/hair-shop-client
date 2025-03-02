@@ -13,7 +13,7 @@ import {
 } from '@angular/material/table';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton, MatIconButton} from '@angular/material/button';
-import {AsyncPipe} from '@angular/common';
+import {AsyncPipe, DatePipe} from '@angular/common';
 import {MatDialogClose} from '@angular/material/dialog';
 
 @Component({
@@ -32,7 +32,8 @@ import {MatDialogClose} from '@angular/material/dialog';
     MatHeaderRow,
     MatRow,
     MatDialogClose,
-    MatButton
+    MatButton,
+    DatePipe
   ],
   templateUrl: './booking-list.component.html',
   styleUrl: './booking-list.component.css'

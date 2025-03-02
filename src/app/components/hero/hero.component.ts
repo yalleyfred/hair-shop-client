@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 import {MatCard, MatCardActions, MatCardContent, MatCardImage} from '@angular/material/card';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {NgForOf} from '@angular/common';
@@ -7,6 +7,8 @@ import {RouterLink} from '@angular/router';
 import {DialogService} from '../../service/dialog/dialog.service';
 import {BookingComponent} from '../../pages/booking/booking.component';
 import {BookingListComponent} from '../bookings-list/booking-list.component';
+import {ProductsComponent} from '../../pages/products/products.component';
+import {AddProductComponent} from '../add-product/add-product.component';
 
 // import {a} from '../../../../public/r69rcnaj4ibdawjovkwf-Square.png'
 
@@ -22,7 +24,8 @@ import {BookingListComponent} from '../bookings-list/booking-list.component';
     MatIconButton,
     MatCardImage,],
   templateUrl: './hero.component.html',
-  styleUrl: './hero.component.css'
+  styleUrl: './hero.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeroComponent {
   public products = [
@@ -51,7 +54,8 @@ export class HeroComponent {
   currentIndex = 2;
   visibleProducts: any = []
 
-  public isUserActive: boolean = !!localStorage.getItem('user');
+  @Input()
+  public isAuthenticated: boolean = false;
 
   public sideDialogService = inject(DialogService);
 
@@ -94,6 +98,10 @@ export class HeroComponent {
   }
 
   public showAllProducts() {
-    this.sideDialogService.open(BookingListComponent);
+    this.sideDialogService.open(ProductsComponent);
+  }
+
+  public addProduct() {
+    this.sideDialogService.open(AddProductComponent);
   }
 }

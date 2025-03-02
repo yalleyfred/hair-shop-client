@@ -1,5 +1,6 @@
 <div>
-  <app-hero></app-hero>
+  <app-header [isAuthenticated]="isAuthenticated"></app-header>
+  <app-hero [isAuthenticated]="isAuthenticated"></app-hero>
   <app-featured-products></app-featured-products>
 </div>
 

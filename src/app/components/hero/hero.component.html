@@ -4,7 +4,7 @@
 <div class="hero-section">
   <h2>Styles samples</h2>
   <div class="book-section">
-    @if (!isUserActive) {
+    @if (!isAuthenticated) {
       <button class="book-button" mat-button>
         <mat-icon>book_online</mat-icon>
         <span><a (click)="openBooking()">Book Now.</a></span>
@@ -15,8 +15,12 @@
         <span><a (click)="showAllBooking()">Booking List</a></span>
       </button>
       <button class="book-button" mat-button>
-        <mat-icon>book_online</mat-icon>
+        <mat-icon>inventory</mat-icon>
         <span><a (click)="showAllProducts()">Products List</a></span>
+      </button>
+      <button class="book-button" mat-button>
+        <mat-icon>inventory</mat-icon>
+        <span><a (click)="addProduct()"> Add Product</a></span>
       </button>
     }
 

@@ -5,21 +5,20 @@
   <div class="nav-bar">
   </div>
   <div>
-    {{isAuthenticated$ | async}}
     <div class="controls">
-      @if(!(isAuthenticated$ | async)) {
+      @if(!isAuthenticated) {
         <div class="options">
           <mat-icon>login</mat-icon>
           <span><a routerLink="/login">Login</a></span>
         </div>
         <!--      <div class="options"><mat-icon>person</mat-icon> <span>profile</span></div>-->
           <!--      <div class="options"><mat-icon>settings</mat-icon><span>settings</span></div>-->
-<!--        </div>-->
+          <!--        </div>-->
       } @else {
-        <div (click)="logout()">
+        <div>
           <mat-icon>logout</mat-icon>
-          <span><a routerLink="">Logout</a></span>
+          <span><a (click)="logout()">Logout</a></span>
         </div>
       }
+    </div>
   </div>
-</div>

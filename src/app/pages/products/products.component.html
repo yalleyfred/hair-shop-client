@@ -1,1 +1,56 @@
-<p>products works!</p>
+<div class="container">
+  <h2>Products</h2>
+  <table [dataSource]="products" class="mat-elevation-z8" mat-table>
+    <!-- ID Column -->
+    <ng-container matColumnDef="id">
+      <th *matHeaderCellDef mat-header-cell>ID</th>
+      <td *matCellDef="let product" mat-cell>{{ product.id.slice(0, 6) }}</td>
+    </ng-container>
+
+    <!-- Name Column -->
+    <ng-container matColumnDef="name">
+      <th *matHeaderCellDef mat-header-cell>Name</th>
+      <td *matCellDef="let product" mat-cell>{{ product.name }}</td>
+    </ng-container>
+
+    <!-- Price Column -->
+    <ng-container matColumnDef="price">
+      <th *matHeaderCellDef mat-header-cell>Price</th>
+      <td *matCellDef="let product" mat-cell>{{ product.price }}</td>
+    </ng-container>
+
+    <!-- Description Column -->
+    <ng-container matColumnDef="description">
+      <th *matHeaderCellDef mat-header-cell>Description</th>
+      <td *matCellDef="let product" mat-cell>{{ product.description }}</td>
+    </ng-container>
+
+
+    <!--    &lt;!&ndash; Status Column &ndash;&gt;-->
+    <!--    <ng-container matColumnDef="status">-->
+    <!--      <th *matHeaderCellDef mat-header-cell>Status</th>-->
+    <!--      <td *matCellDef="let booking" mat-cell>{{ booking.status }}</td>-->
+    <!--    </ng-container>-->
+
+    <!-- Actions Column -->
+    <ng-container matColumnDef="actions">
+      <th *matHeaderCellDef mat-header-cell>Actions</th>
+      <td *matCellDef="let product" mat-cell>
+        <button (click)="editProduct(product)" color="primary" mat-icon-button>
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button (click)="deleteProduct(product)" color="warn" mat-icon-button>
+          <mat-icon>delete</mat-icon>
+        </button>
+      </td>
+    </ng-container>
+
+    <!-- Header and Row Definitions -->
+    <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+    <tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+  </table>
+</div>
+
+<div class="close-button">
+  <button color="primary" mat-dialog-close mat-raised-button>close</button>
+</div>
