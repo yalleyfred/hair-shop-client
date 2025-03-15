@@ -18,7 +18,4 @@ export class HomeComponent {
 
   public isAuthenticated: boolean = !!localStorage.getItem('user');
 
-  ngOnInit() {
-    console.log('isAuthenticated', this.isAuthenticated);
-  }
 }

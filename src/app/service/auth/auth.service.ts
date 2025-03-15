@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {endpoint} from '../../constants/constant';
 import {Router} from '@angular/router';
-import {authDto} from '../../models/auth.model';
+import {Auth} from '../../models/auth.model';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +14,7 @@ export class AuthService {
   constructor(public http: HttpClient, public router: Router) {
   }
 
-  public login(loginDto: authDto) {
+  public login(loginDto: Auth) {
     return this.http.post(`${endpoint}/auth/login`, loginDto).subscribe((res: any) => {
         console.log('response', res);
         localStorage.setItem('user', res.access_token);

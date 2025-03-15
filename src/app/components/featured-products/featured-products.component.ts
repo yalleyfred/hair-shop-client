@@ -18,48 +18,48 @@ export class FeaturedProductsComponent {
       image: 'https://res.cloudinary.com/dc9l6nzid/image/upload/v1673713726/image/kgftnnqqz5cn1bje4di2.jpg',
       description: 'For smooth and shiny hair.',
     },
-    {
-      name: 'Conditioner',
-      price: 14.99,
-      image: 'https://res.cloudinary.com/dc9l6nzid/image/upload/v1673710699/image/r69rcnaj4ibdawjovkwf.png',
-      description: 'For soft and manageable hair.',
-    },
-    {
-      name: 'Hair Mask',
-      price: 19.99,
-      image: 'https://res.cloudinary.com/dc9l6nzid/image/upload/v1673714220/image/srnsoe8v6rntnuzuw0cp.jpg',
-      description: 'Deep conditioning treatment.',
-    },
-    {
-      name: 'Hair Oil',
-      price: 9.99,
-      image: 'https://res.cloudinary.com/dc9l6nzid/image/upload/v1673706865/image/rc7narlv7f0zwnqzzbqq.jpg',
-      description: 'For nourished and healthy hair.',
-    },
-    {
-      name: 'Hair Serum',
-      price: 15.99,
-      image: 'https://res.cloudinary.com/dc9l6nzid/image/upload/v1673710699/image/r69rcnaj4ibdawjovkwf.png',
-      description: 'For frizz-free hair.',
-    },
-    {
-      name: 'Hair Spray',
-      price: 8.99,
-      image: 'https://res.cloudinary.com/dc9l6nzid/image/upload/v1673706865/image/rc7narlv7f0zwnqzzbqq.jpg',
-      description: 'For long-lasting hold.',
-    },
-    {
-      name: 'Hair Gel',
-      price: 7.99,
-      image: 'https://res.cloudinary.com/dc9l6nzid/image/upload/v1673714220/image/srnsoe8v6rntnuzuw0cp.jpg',
-      description: 'For strong styling.',
-    },
-    {
-      name: 'Hair Wax',
-      price: 10.99,
-      image: 'https://res.cloudinary.com/dc9l6nzid/image/upload/v1673713726/image/kgftnnqqz5cn1bje4di2.jpg',
-      description: 'For textured looks.',
-    },
+    // {
+    //   name: 'Conditioner',
+    //   price: 14.99,
+    //   image: 'https://res.cloudinary.com/dc9l6nzid/image/upload/v1673710699/image/r69rcnaj4ibdawjovkwf.png',
+    //   description: 'For soft and manageable hair.',
+    // },
+    // {
+    //   name: 'Hair Mask',
+    //   price: 19.99,
+    //   image: 'https://res.cloudinary.com/dc9l6nzid/image/upload/v1673714220/image/srnsoe8v6rntnuzuw0cp.jpg',
+    //   description: 'Deep conditioning treatment.',
+    // },
+    // {
+    //   name: 'Hair Oil',
+    //   price: 9.99,
+    //   image: 'https://res.cloudinary.com/dc9l6nzid/image/upload/v1673706865/image/rc7narlv7f0zwnqzzbqq.jpg',
+    //   description: 'For nourished and healthy hair.',
+    // },
+    // {
+    //   name: 'Hair Serum',
+    //   price: 15.99,
+    //   image: 'https://res.cloudinary.com/dc9l6nzid/image/upload/v1673710699/image/r69rcnaj4ibdawjovkwf.png',
+    //   description: 'For frizz-free hair.',
+    // },
+    // {
+    //   name: 'Hair Spray',
+    //   price: 8.99,
+    //   image: 'https://res.cloudinary.com/dc9l6nzid/image/upload/v1673706865/image/rc7narlv7f0zwnqzzbqq.jpg',
+    //   description: 'For long-lasting hold.',
+    // },
+    // {
+    //   name: 'Hair Gel',
+    //   price: 7.99,
+    //   image: 'https://res.cloudinary.com/dc9l6nzid/image/upload/v1673714220/image/srnsoe8v6rntnuzuw0cp.jpg',
+    //   description: 'For strong styling.',
+    // },
+    // {
+    //   name: 'Hair Wax',
+    //   price: 10.99,
+    //   image: 'https://res.cloudinary.com/dc9l6nzid/image/upload/v1673713726/image/kgftnnqqz5cn1bje4di2.jpg',
+    //   description: 'For textured looks.',
+    // },
   ];
 
   public viewDetails(product: any) {

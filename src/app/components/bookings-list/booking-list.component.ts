@@ -1,7 +1,7 @@
-import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {Booking, BookingResponse} from '../../models/booking.model';
+import {Component} from '@angular/core';
+import {BookingResponse} from '../../models/booking.model';
 import {BookingService} from '../../service/bookings/bookings.service';
-import {filter, Observable, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {
   MatCell,
   MatCellDef,
@@ -13,9 +13,8 @@ import {
 } from '@angular/material/table';
 import {MatIcon} from '@angular/material/icon';
 import {MatButton, MatIconButton} from '@angular/material/button';
-import {AsyncPipe, DatePipe} from '@angular/common';
+import {DatePipe} from '@angular/common';
 import {MatDialogClose} from '@angular/material/dialog';
-import {MatSlideToggle} from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-Booking-list',

@@ -1,11 +1,10 @@
 import {ChangeDetectionStrategy, Component, inject} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {AuthService} from '../../service/auth/auth.service';
-import {authDto} from '../../models/auth.model';
+import {Auth} from '../../models/auth.model';
 import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from '@angular/material/card';
 import {MatIcon} from '@angular/material/icon';
 import {RouterLink} from '@angular/router';
-import {NgOptimizedImage} from '@angular/common';
 
 
 @Component({
@@ -19,14 +18,13 @@ import {NgOptimizedImage} from '@angular/common';
     MatCardSubtitle,
     MatIcon,
     RouterLink,
-    // NgOptimizedImage
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LoginComponent {
-  public loginData: authDto = {
+  public loginData: Auth = {
     email: '',
     password: ''
   }
