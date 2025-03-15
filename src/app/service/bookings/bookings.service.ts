@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
-import {Booking} from '../../models/booking.model';
+import {Booking, BookingResponse} from '../../models/booking.model';
 import {endpoint} from '../../constants/constant';
 
 @Injectable({
@@ -12,24 +12,24 @@ export class BookingService {
   constructor(public http: HttpClient) {
   }
 
-  public createBooking(Booking: Booking): Observable<Booking> {
-    return this.http.post<Booking>(`${endpoint}/booking`, Booking)
+  public createBooking(booking: Booking): Observable<BookingResponse> {
+    return this.http.post<BookingResponse>(`${endpoint}/booking`, booking)
   }
 
-  public getAllBooking(): Observable<Booking[]> {
-    return this.http.get<Booking[]>(`${endpoint}/booking`)
+  public getAllBooking(): Observable<BookingResponse[]> {
+    return this.http.get<BookingResponse[]>(`${endpoint}/booking`)
   }
 
-  public getBookingById(id: string): Observable<Booking> {
-    return this.http.get<Booking>(`${endpoint}/booking/${id}`)
+  public getBookingById(id: string): Observable<BookingResponse> {
+    return this.http.get<BookingResponse>(`${endpoint}/booking/${id}`)
   }
 
-  public updateBooking(Booking: Booking, id: string): Observable<Booking> {
-    return this.http.patch<Booking>(`${endpoint}/booking/${id}`, Booking)
+  public updateBooking(booking: Booking, id: string): Observable<BookingResponse> {
+    return this.http.patch<BookingResponse>(`${endpoint}/booking/${id}`, booking)
   }
 
-  public deleteBooking(id: string): Observable<Booking> {
-    return this.http.delete<Booking>(`${endpoint}/booking/${id}`)
+  public deleteBooking(booking: Booking, id: string) {
+    return this.http.delete<BookingResponse>(`${endpoint}/booking/${id}`, {body: booking})
   }
 
 }

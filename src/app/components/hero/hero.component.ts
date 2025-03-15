@@ -3,14 +3,11 @@ import {MatCard, MatCardActions, MatCardContent, MatCardImage} from '@angular/ma
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {NgForOf} from '@angular/common';
 import {MatIcon} from '@angular/material/icon';
-import {RouterLink} from '@angular/router';
 import {DialogService} from '../../service/dialog/dialog.service';
 import {BookingComponent} from '../../pages/booking/booking.component';
 import {BookingListComponent} from '../bookings-list/booking-list.component';
 import {ProductsComponent} from '../../pages/products/products.component';
 import {AddProductComponent} from '../add-product/add-product.component';
-
-// import {a} from '../../../../public/r69rcnaj4ibdawjovkwf-Square.png'
 
 @Component({
   selector: 'app-hero',
@@ -73,7 +70,6 @@ export class HeroComponent {
   }
 
   public prevCard() {
-    console.log('ind', this.currentIndex)
     if (this.currentIndex > 2) {
       this.currentIndex--;
       this.updateVisibleProducts();
@@ -85,8 +81,6 @@ export class HeroComponent {
       this.currentIndex - 2,
       this.currentIndex + 1
     );
-    console.log('here', this.visibleProducts);
-
   }
 
   public openBooking() {

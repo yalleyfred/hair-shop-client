@@ -1,106 +1,95 @@
 .featured-products {
-  padding: 60px;
+  padding: 20px;
   text-align: center;
 }
 
-.product-card {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+/* Default styles for larger screens (4 columns) */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* 4 columns by default */
   gap: 16px;
+  padding: 16px;
 }
 
-.product-card img {
+.product-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.product-image {
+  width: 100%;
   height: 200px;
   object-fit: cover;
 }
 
-.product-card h3 {
-  font-size: 20px;
-  margin: 10px 0;
-}
-
-.product-card .price {
-  font-size: 1.1em;
-  font-weight: bold;
-  color: #3f51b5; /* Primary color */
-}
-
-.product-card mat-card-actions {
-  display: flex;
-  justify-content: space-between;
+.product-content {
   padding: 16px;
 }
 
-/* Media Queries for Responsive Design */
-@media (max-width: 1200px) {
-  .featured-products {
-    padding: 40px;
-  }
+.product-content h3 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: #333;
+}
 
-  mat-grid-list {
-    cols: 3; /* Reduce columns to 3 on medium screens */
-  }
+.product-content .price {
+  margin: 8px 0;
+  font-size: 1.1rem;
+  color: blue;
+  font-weight: bold;
+}
 
-  .product-card img {
-    height: 180px; /* Slightly reduce image height */
-  }
+.product-actions {
+  display: flex;
+  gap: 8px;
+  padding: 16px;
+}
 
-  .product-card h3 {
-    font-size: 18px; /* Reduce font size for medium screens */
+.action-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #d19754;
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.action-button:hover {
+  background-color: #d19754;
+}
+
+
+/* For tablets (2 columns) */
+@media (max-width: 1024px) {
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for tablets */
   }
 }
 
+/* For smaller tablets (2 columns) */
 @media (max-width: 768px) {
-  .featured-products {
-    padding: 20px;
-  }
-
-  mat-grid-list {
-    cols: 2; /* Reduce columns to 2 on small screens */
-  }
-
-  .product-card img {
-    height: 150px; /* Further reduce image height */
-  }
-
-  .product-card h3 {
-    font-size: 16px; /* Reduce font size for small screens */
-  }
-
-  .product-card .price {
-    font-size: 1em; /* Reduce price font size for small screens */
-  }
-
-  .product-card mat-card-actions {
-    flex-direction: column; /* Stack buttons vertically on small screens */
-    gap: 8px; /* Add space between stacked buttons */
+  .product-grid {
+    grid-template-columns: repeat(2, 1fr); /* 2 columns for smaller tablets */
   }
 }
 
+/* For mobile devices (1 column) */
 @media (max-width: 480px) {
-  .featured-products {
-    padding: 10px;
-  }
-
-  mat-grid-list {
-    cols: 1; /* Reduce columns to 1 on very small screens */
-  }
-
-  .product-card img {
-    height: 120px; /* Further reduce image height for very small screens */
-  }
-
-  .product-card h3 {
-    font-size: 14px; /* Further reduce font size for very small screens */
-  }
-
-  .product-card .price {
-    font-size: 0.9em; /* Further reduce price font size for very small screens */
-  }
-
-  .product-card mat-card-actions {
-    padding: 8px; /* Reduce padding for very small screens */
+  .product-grid {
+    grid-template-columns: repeat(1, 1fr); /* 1 column for mobile */
   }
 }

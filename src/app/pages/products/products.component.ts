@@ -11,11 +11,10 @@ import {
 } from "@angular/material/table";
 import {MatDialogClose} from "@angular/material/dialog";
 import {MatIcon} from "@angular/material/icon";
-import {Booking} from '../../models/booking.model';
-import {filter, Subscription} from 'rxjs';
-import {BookingService} from '../../service/bookings/bookings.service';
-import {Product} from '../../models/product.model';
+import {ProductResponse} from '../../models/product.model';
 import {ProductsService} from '../../service/products/products.service';
+import {DialogService} from '../../service/dialog/dialog.service';
+import {AddProductComponent} from '../../components/add-product/add-product.component';
 
 @Component({
   selector: 'app-products',
@@ -40,20 +39,22 @@ import {ProductsService} from '../../service/products/products.service';
 })
 export class ProductsComponent {
   public displayedColumns: string[] = ['id', 'name', 'price', 'description', 'actions'];
-  public products: Product[] = [];
+  public products: ProductResponse[] = [];
 
-  public subscription = new Subscription();
 
-  constructor(private readonly productService: ProductsService) {
-    this.productService.getProducts().subscribe((products) => this.products = products);
+  constructor(private readonly productService: ProductsService, private readonly sideDialogService: DialogService) {
+    this.productService.getProducts().subscribe((products: ProductResponse[]) => this.products = products);
   }
 
-  public editProduct(product: Product) {
-    console.log('Edit product:', product);
+  public editProduct(product: ProductResponse) {
+    this.sideDialogService.open(AddProductComponent, {
+      data: product,
+    })
   }
 
-  public deleteProduct(product: Product) {
-    // this.products = this.products.filter((b) => b.id !== product.id);
-    console.log('Deleted product:', product);
+  public deleteProduct(product: ProductResponse) {
+    this.productService.deleteProduct(product, product.id).subscribe((res: ProductResponse) => {
+      this.products = this.products.filter((data: ProductResponse) => data.id !== res.id)
+    })
   }
 }

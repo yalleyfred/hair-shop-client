@@ -16,6 +16,8 @@ import {MatStep, MatStepLabel, MatStepper, MatStepperNext, MatStepperPrevious} f
 import {BookingService} from '../../service/bookings/bookings.service';
 import {ServiceType, ServiceTypeEnum} from '../../models/booking.model';
 import {MatDialogClose} from '@angular/material/dialog';
+import {DialogService} from '../../service/dialog/dialog.service';
+import {PaymentComponent} from '../../components/payment/payment.component';
 
 @Component({
   selector: 'app-booking',
@@ -46,7 +48,7 @@ import {MatDialogClose} from '@angular/material/dialog';
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.css'
 })
-export class BookingComponent implements OnInit, OnDestroy {
+export class BookingComponent {
   public serviceFormGroup: FormGroup;
   public dateTimeFormGroup: FormGroup;
   public detailsFormGroup: FormGroup;
@@ -58,10 +60,12 @@ export class BookingComponent implements OnInit, OnDestroy {
   ];
   public selectedService: any;
   public selectedDate: Date = new Date();
+  // To set minimum date to tomorrow
+  public minDate = new Date();
   public selectedTime: string = '';
   public availableTimes = ['10:00 AM', '12:00 PM', '2:00 PM', '4:00 PM'];
 
-  constructor(private _formBuilder: FormBuilder, public bookingService: BookingService) {
+  constructor(private _formBuilder: FormBuilder, public bookingService: BookingService, private readonly sideDailogService: DialogService) {
     this.serviceFormGroup = this._formBuilder.group({
       service: ['', Validators.required],
     });
@@ -74,13 +78,7 @@ export class BookingComponent implements OnInit, OnDestroy {
       phone: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
     });
-  }
-
-  public ngOnInit() {
-
-  }
-
-  public ngOnDestroy() {
+    this.minDate.setDate(this.minDate.getDate() + 1);
   }
 
   public selectService(service: any) {
@@ -98,8 +96,14 @@ export class BookingComponent implements OnInit, OnDestroy {
         name: this.detailsFormGroup.value.name,
         phone: this.detailsFormGroup.value.phone,
         email: this.detailsFormGroup.value.email,
+      }).subscribe((res) => {
+        console.log('res', res);
       })
     }
     return '';
+  }
+
+  public makePayment() {
+    this.sideDailogService.open(PaymentComponent);
   }
 }

@@ -12,7 +12,10 @@
 .book-button {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 5px;
+}
+
+button {
+  margin-bottom: 10px;
 }
 
 .slider-container {
@@ -35,6 +38,12 @@
   transition: transform 0.5s ease-in-out;
 }
 
+.card-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
 .nav-button {
   position: absolute;
   top: 50%;
@@ -51,3 +60,8 @@
   right: -40px; /* Adjust position */
 }
 
+.admin-btns {
+  display: flex;
+  justify-content: space-between;
+
+}

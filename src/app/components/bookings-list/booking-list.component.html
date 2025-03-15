@@ -39,19 +39,19 @@
     </ng-container>
 
 
-    <!--    &lt;!&ndash; Status Column &ndash;&gt;-->
-    <!--    <ng-container matColumnDef="status">-->
-    <!--      <th *matHeaderCellDef mat-header-cell>Status</th>-->
-    <!--      <td *matCellDef="let booking" mat-cell>{{ booking.status }}</td>-->
-    <!--    </ng-container>-->
+    <!-- Status Column -->
+    <ng-container matColumnDef="status">
+      <th *matHeaderCellDef mat-header-cell>Status</th>
+      <td *matCellDef="let booking" mat-cell>{{ bookingStatus }}</td>
+    </ng-container>
 
     <!-- Actions Column -->
     <ng-container matColumnDef="actions">
       <th *matHeaderCellDef mat-header-cell>Actions</th>
       <td *matCellDef="let booking" mat-cell>
-        <button (click)="editBooking(booking)" color="primary" mat-icon-button>
-          <mat-icon>edit</mat-icon>
-        </button>
+        <!--        <button (click)="editBooking(booking)" color="primary" mat-icon-button>-->
+        <!--          <mat-slide-toggle>edit</mat-slide-toggle>-->
+        <!--        </button>-->
         <button (click)="deleteBooking(booking)" color="warn" mat-icon-button>
           <mat-icon>delete</mat-icon>
         </button>

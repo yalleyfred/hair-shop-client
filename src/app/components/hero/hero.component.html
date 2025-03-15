@@ -5,25 +5,26 @@
   <h2>Styles samples</h2>
   <div class="book-section">
     @if (!isAuthenticated) {
-      <button class="book-button" mat-button>
+      <button (click)="openBooking()" class="book-button" mat-button>
         <mat-icon>book_online</mat-icon>
-        <span><a (click)="openBooking()">Book Now.</a></span>
+        <span>Book Now.</span>
       </button>
     } @else {
-      <button class="book-button" mat-button>
-        <mat-icon>book_online</mat-icon>
-        <span><a (click)="showAllBooking()">Booking List</a></span>
-      </button>
-      <button class="book-button" mat-button>
-        <mat-icon>inventory</mat-icon>
-        <span><a (click)="showAllProducts()">Products List</a></span>
-      </button>
-      <button class="book-button" mat-button>
-        <mat-icon>inventory</mat-icon>
-        <span><a (click)="addProduct()"> Add Product</a></span>
-      </button>
+      <div class="admin-btns">
+        <button (click)="showAllBooking()" mat-button>
+          <mat-icon>book_online</mat-icon>
+          <span>Booking List</span>
+        </button>
+        <button (click)="showAllProducts()" mat-button>
+          <mat-icon>inventory</mat-icon>
+          <span>Products List</span>
+        </button>
+        <button (click)="addProduct()" mat-button>
+          <mat-icon>inventory</mat-icon>
+          <span>Add Product</span>
+        </button>
+      </div>
     }
-
   </div>
   <div class="slider-container">
     <button (click)="prevCard()" [disabled]="forwardDisabled"

@@ -55,6 +55,8 @@
           id="image"
           type="file"
         />
+        <!--        <img *ngIf="dialogData?.productUrl" [src]="dialogData?.productUrl" alt="Product Image"-->
+        <!--             class="product-image">-->
         <mat-error *ngIf="productForm.get('image')?.hasError('required')">
           Image is required
         </mat-error>

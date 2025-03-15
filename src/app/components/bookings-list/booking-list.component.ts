@@ -1,5 +1,5 @@
 import {Component, inject, OnDestroy, OnInit} from '@angular/core';
-import {Booking} from '../../models/booking.model';
+import {Booking, BookingResponse} from '../../models/booking.model';
 import {BookingService} from '../../service/bookings/bookings.service';
 import {filter, Observable, Subscription} from 'rxjs';
 import {
@@ -15,6 +15,7 @@ import {MatIcon} from '@angular/material/icon';
 import {MatButton, MatIconButton} from '@angular/material/button';
 import {AsyncPipe, DatePipe} from '@angular/common';
 import {MatDialogClose} from '@angular/material/dialog';
+import {MatSlideToggle} from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-Booking-list',
@@ -33,15 +34,16 @@ import {MatDialogClose} from '@angular/material/dialog';
     MatRow,
     MatDialogClose,
     MatButton,
-    DatePipe
+    DatePipe,
   ],
   templateUrl: './booking-list.component.html',
   styleUrl: './booking-list.component.css'
 })
-export class BookingListComponent implements OnInit, OnDestroy {
+export class BookingListComponent {
 
   public displayedColumns: string[] = ['id', 'name', 'serviceType', 'bookingDate', 'bookingTime', 'price', 'actions'];
-  public bookings: Booking[] = [];
+  public bookings: BookingResponse[] = [];
+  public bookingStatus = false;
 
   public subscription = new Subscription();
 
@@ -49,22 +51,15 @@ export class BookingListComponent implements OnInit, OnDestroy {
     this.bookingService.getAllBooking().subscribe(bookings => this.bookings = bookings);
   }
 
-  public ngOnDestroy() {
+  // public editBooking(booking: Booking) {
+  //   // Logic to edit a booking
+  //   console.log('Edit booking:', booking);
+  // }
 
-  }
-
-  public ngOnInit() {
-  }
-
-  public editBooking(booking: Booking) {
-    // Logic to edit a booking
-    console.log('Edit booking:', booking);
-  }
-
-  public deleteBooking(booking: Booking) {
-    // Logic to delete a booking
-    // this.bookings$ = this.bookings$.pipe(filter((b) => b.id !== booking.id));
-    console.log('Deleted booking:', booking);
+  public deleteBooking(booking: BookingResponse) {
+    this.bookingService.deleteBooking(booking, booking.id).subscribe((res: BookingResponse) => {
+      this.bookings = this.bookings.filter((data: BookingResponse) => data.id !== res.id)
+    })
   }
 
 }

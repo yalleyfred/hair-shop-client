@@ -1,21 +1,10 @@
 import {Component} from '@angular/core';
-import {MatGridList, MatGridTile} from '@angular/material/grid-list';
-import {MatCard, MatCardActions, MatCardContent, MatCardImage} from '@angular/material/card';
 import {CurrencyPipe, NgForOf} from '@angular/common';
-import {MatButton, MatIconButton} from '@angular/material/button';
-import {MatIcon} from '@angular/material/icon';
 
 @Component({
   selector: 'app-featured-products',
   imports: [
-    MatGridList,
-    MatGridTile,
-    MatCard,
-    MatCardContent,
-    MatCardActions,
     NgForOf,
-    MatButton,
-    MatCardImage,
     CurrencyPipe,
   ],
   templateUrl: './featured-products.component.html',

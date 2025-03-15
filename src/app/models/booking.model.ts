@@ -16,3 +16,10 @@ export type ServiceType = {
   name: ServiceTypeEnum;
   price: number
 }
+
+export interface BookingResponse extends Booking {
+  id: string;
+  createdAt?: Date;
+  deletedAt?: Date;
+  updatedAt?: Date;
+}

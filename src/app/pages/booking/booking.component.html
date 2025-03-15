@@ -28,7 +28,7 @@
         <ng-template matStepLabel>Select Date and Time</ng-template>
         <h3>Select Date and Time</h3>
         <mat-form-field>
-          <input [matDatepicker]="picker" formControlName="date" matInput placeholder="Choose a date">
+          <input [matDatepicker]="picker" [min]="minDate" formControlName="date" matInput placeholder="Choose a date">
           <mat-datepicker-toggle [for]="picker" matSuffix></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -61,6 +61,7 @@
           <input formControlName="email" matInput placeholder="Email">
         </mat-form-field>
         <div class="button-container">
+          <button (click)="makePayment()" color="primary" mat-raised-button>Make Payment</button>
           <button (click)="confirmBooking()" color="primary" mat-raised-button matStepperNext>Confirm Booking</button>
           <button mat-button matStepperPrevious>Back</button>
         </div>

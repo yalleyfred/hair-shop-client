@@ -1,8 +1,8 @@
 <div class="toolbar">
-  <div id="logo">
-    <a routerLink="/">logo</a>
-  </div>
-  <div class="nav-bar">
+  <div>
+      <img alt="logo"
+           src="https://res.cloudinary.com/dc9l6nzid/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1741256984/hair-shop/logo.jpg"
+           >
   </div>
   <div>
     <div class="controls">
@@ -15,7 +15,7 @@
           <!--      <div class="options"><mat-icon>settings</mat-icon><span>settings</span></div>-->
           <!--        </div>-->
       } @else {
-        <div>
+        <div class="options">
           <mat-icon>logout</mat-icon>
           <span><a (click)="logout()">Logout</a></span>
         </div>

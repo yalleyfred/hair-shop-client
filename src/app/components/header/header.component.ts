@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 import {MatIcon} from '@angular/material/icon';
 import {Router, RouterLink} from '@angular/router';
+import {NgOptimizedImage} from '@angular/common';
 
 @Component({
   selector: 'app-header',

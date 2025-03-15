@@ -6,16 +6,17 @@
     flex: 1;
     justify-content: space-between;
     align-items: center;
-    padding-block: 5px;
     color: white;
 
-    #logo {
-      /*flex: 1;*/
+
+    img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin-left: 10px;
+      margin-block: 3px;
     }
 
-    /*.nav-bar {*/
-    /*  flex: 4;*/
-    /*}*/
 
     a:hover {
       cursor: pointer;
