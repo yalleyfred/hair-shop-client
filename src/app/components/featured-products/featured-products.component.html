@@ -1,6 +1,6 @@
 <div class="featured-products">
   <h2>Featured Products</h2>
-  <ng-container *ngIf="!!(products$ | async); else noProducts">
+  <ng-container *ngIf="(products$ | async)?.length > 0; else noProducts">
     <div class="product-grid">
       <div *ngFor="let product of products$ | async" class="product-card">
         <img [alt]="product.name" [src]="product.productUrl" class="product-image"/>

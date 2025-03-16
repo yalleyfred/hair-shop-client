@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {AsyncPipe, CurrencyPipe, NgForOf, NgIf} from '@angular/common';
 import {ProductsService} from '../../service/products/products.service';
-import {ProductResponse} from '../../models/product.model';
 import {Observable} from 'rxjs';
 import {MatButton} from '@angular/material/button';
 
@@ -10,16 +9,16 @@ import {MatButton} from '@angular/material/button';
   imports: [
     NgForOf,
     CurrencyPipe,
-    AsyncPipe,
     NgIf,
     MatButton,
+    AsyncPipe,
   ],
   templateUrl: './featured-products.component.html',
   styleUrl: './featured-products.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FeaturedProductsComponent {
-  public products$: Observable<ProductResponse[]> | null = null;
+  public products$: Observable<any>;
 
   constructor(private readonly productService: ProductsService) {
     this.products$ = this.productService.getProducts();
