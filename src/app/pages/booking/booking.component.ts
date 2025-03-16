@@ -65,7 +65,7 @@ export class BookingComponent {
   public selectedTime: string = '';
   public availableTimes = ['10:00 AM', '12:00 PM', '2:00 PM', '4:00 PM'];
 
-  constructor(private _formBuilder: FormBuilder, public bookingService: BookingService, private readonly sideDailogService: DialogService) {
+  constructor(private readonly _formBuilder: FormBuilder, public bookingService: BookingService, private readonly sideDailogService: DialogService) {
     this.serviceFormGroup = this._formBuilder.group({
       service: ['', Validators.required],
     });

@@ -1,4 +1,17 @@
 
 div {
-  background-color: #FFF8F5;
+  background-color: #ebe5de;
+}
+
+.about-section {
+  padding: 40px 20px;
+  text-align: center;
+  border: 1px solid navajowhite;
+  background-color: #683e1d;
+  color: white;
+}
+
+.about-section p {
+  max-width: 600px;
+  margin: 20px auto;
 }

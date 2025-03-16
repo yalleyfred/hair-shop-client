@@ -1,19 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
 :host {
   .toolbar {
-    background-color: #d19754;
+    background-color: #683e1d;
     display: flex;
     flex: 1;
     justify-content: space-between;
     align-items: center;
     color: white;
 
+    .logo {
+      display: flex;
+      justify-content: space-between;
+      font-family: 'Pacifico', cursive;
+    }
+
 
     img {
       width: 60px;
       height: 60px;
       border-radius: 50%;
-      margin-left: 10px;
+      margin-inline: 10px;
       margin-block: 3px;
     }
 

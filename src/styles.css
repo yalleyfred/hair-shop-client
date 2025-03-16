@@ -1,4 +1,5 @@
 /* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
 html {
   font-size: 16px;
@@ -41,10 +42,17 @@ mat-icon {
   margin-right: 2px;
 }
 
+h2 {
+  font-family: 'Pacifico', cursive;
+}
 
-button[mat-button] {
-  background-color: #d19754 !important;
-  color: black !important;
+button {
+  background-color: #683e1d !important;
+  color: white !important;
+}
+
+.button:hover {
+  background-color: #683e1d;
 }
 
 mat-card {
@@ -67,10 +75,6 @@ mat-card {
 @media (max-width: 768px) {
   .container {
     padding: 10px; /* Reduce padding for smaller screens */
-  }
-
-  table {
-    display: block; /* Change table display to block for better scrolling */
   }
 
   th, td {

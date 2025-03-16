@@ -2,6 +2,34 @@
 @let backwardsDisabled = this.currentIndex === this.products.length - 1;
 
 <div class="hero-section">
+  <div class="hero-content">
+    <div class="hero-image">
+      <img
+        src="https://res.cloudinary.com/dc9l6nzid/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1741256984/hair-shop/logo.jpg"/>
+    </div>
+    <div>
+      <h1>Welcome to Jen's Hair Palour</h1>
+      <p>Your one-stop destination for premium hair services and products.</p>
+    </div>
+    <!--    <a class="cta-button" routerLink="/home">Explore Now</a>-->
+  </div>
+  <section class="services-section">
+    <h2>Our Services</h2>
+    <div class="service-list">
+      <div class="service-item">
+        <h3>Hair Styling</h3>
+        <p>From casual to glamorous, we’ve got you covered.</p>
+      </div>
+      <div class="service-item">
+        <h3>Hair Coloring</h3>
+        <p>Transform your look with our expert coloring services.</p>
+      </div>
+      <div class="service-item">
+        <h3>Hair Treatments</h3>
+        <p>Revitalize your hair with our nourishing treatments.</p>
+      </div>
+    </div>
+  </section>
   <h2>Styles samples</h2>
   <div class="book-section">
     @if (!isAuthenticated) {

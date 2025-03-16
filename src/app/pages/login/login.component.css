@@ -32,7 +32,7 @@
 
 h2 {
   margin-bottom: 1.5rem;
-  color: #d19754;
+  color: #683e1d;
 }
 
 .form-group {
@@ -43,25 +43,25 @@ h2 {
 label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #d19754;
+  color: #683e1d;
 }
 
 input {
   width: 95%;
   padding: 0.75rem;
-  border: 1px solid #d19754;
+  border: 1px solid #683e1d;
   border-radius: 4px;
   font-size: 1rem;
 }
 
 input:focus {
-  border: 2px solid #d19754 !important;
+  border: 2px solid #683e1d !important;
 }
 
 button {
   width: 100%; /* Make button full width on small screens */
   padding: 0.75rem;
-  background-color: #d19754;
+  background-color: #683e1d;
   color: white;
   border: none;
   border-radius: 4px;
@@ -84,7 +84,7 @@ button:disabled {
 
 mat-card-header {
   justify-content: center;
-  background-color: #d19754;
+  background-color: #683e1d;
   color: white;
   border-radius: 8px 8px 0 0;
   padding: 1rem;
@@ -96,7 +96,7 @@ mat-card-title {
 }
 
 mat-card-subtitle {
-  color: #d19754;
+  color: #683e1d;
 }
 
 .logo {
@@ -120,11 +120,11 @@ p {
 
 mat-icon {
   margin-right: 0.5rem;
-  color: #d19754;
+  color: #683e1d;
 }
 
 a {
-  color: #d19754;
+  color: #683e1d;
   text-decoration: none;
   font-weight: bold;
 }

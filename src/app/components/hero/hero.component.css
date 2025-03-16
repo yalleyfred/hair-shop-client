@@ -1,7 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
 .hero-section {
   padding: 60px;
   text-align: center;
+}
+
+h1 {
+  font-family: 'Pacifico', cursive;
+}
+
+.hero-content {
+  /*background-image: url('https://res.cloudinary.com/dc9l6nzid/image/upload/c_thumb,w_200,g_face/v1741256984/hair-shop/logo.jpg');*/
+  /*background-color: white;*/
+  /*background-position: center;*/
+  height: 400px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-radius: 15px;
+  box-shadow: 0 1px #683e1d;
+  padding: 30px;
+}
+
+.hero-image {
+  margin: 20px;
+}
+
+.hero-image img {
+  width: 400px;
+  height: 400px;
+}
+
+.services-section {
+  padding: 40px 20px;
+  text-align: center;
+  /*background-color: #f8f9fa;*/
+}
+
+.service-list {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+.service-item {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 30%;
+  margin-right: 5px;
 }
 
 .book-section {
@@ -64,4 +113,36 @@ button {
   display: flex;
   justify-content: space-between;
 
+}
+
+@media (max-width: 480px) {
+  .service-list {
+    flex-direction: column;
+    justify-content: space-between;
+
+  }
+
+  .service-item {
+    width: 80%;
+    margin-bottom: 15px;
+  }
+
+  .book-section {
+    justify-content: center;
+  }
+
+  .hero-content {
+    flex-direction: column;
+  }
+
+  .hero-image img {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .service-item {
+    margin-right: 15px;
+  }
 }
