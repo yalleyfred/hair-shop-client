@@ -2,7 +2,7 @@ import {Component, Inject} from '@angular/core';
 import {MatError, MatFormField, MatLabel} from '@angular/material/form-field';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatInput} from '@angular/material/input';
-import {NgIf} from '@angular/common';
+
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
 import {MatButton} from '@angular/material/button';
 import {ProductsService} from '../../service/products/products.service';
@@ -16,7 +16,6 @@ import {ProductResponse} from '../../models/product.model';
     MatFormField,
     ReactiveFormsModule,
     MatInput,
-    NgIf,
     MatCardContent,
     MatCardTitle,
     MatCardHeader,
@@ -24,7 +23,7 @@ import {ProductResponse} from '../../models/product.model';
     MatCard,
     MatButton,
     MatDialogClose
-  ],
+],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css'
 })

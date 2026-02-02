@@ -34,9 +34,11 @@
         </mat-form-field>
         <mat-form-field>
           <mat-select formControlName="time" placeholder="Select a time">
-            <mat-option *ngFor="let time of availableTimes" [value]="time">
-              {{ time }}
-            </mat-option>
+            @for (time of availableTimes; track time) {
+              <mat-option [value]="time">
+                {{ time }}
+              </mat-option>
+            }
           </mat-select>
         </mat-form-field>
         <div class="button-container">
@@ -73,7 +75,7 @@
       <ng-template matStepLabel>Confirmation</ng-template>
       <h3>Booking Confirmed!</h3>
       <p>Thank you, {{ detailsFormGroup.value?.name }}! Your appointment for {{ selectedService?.name }}
-        on {{ selectedDate | date }} at {{ selectedTime }} is confirmed.</p>
+      on {{ selectedDate | date }} at {{ selectedTime }} is confirmed.</p>
       <div class="button-container">
         <button color="primary" mat-raised-button matDialogClose>Close</button>
       </div>

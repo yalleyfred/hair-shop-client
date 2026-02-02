@@ -6,75 +6,77 @@
     <div class="hero-image">
       <img
         src="https://res.cloudinary.com/dc9l6nzid/image/upload/w_1000,c_fill,ar_1:1,g_auto,r_max,bo_5px_solid_red,b_rgb:262c35/v1741256984/hair-shop/logo.jpg"/>
-    </div>
-    <div>
-      <h1>Welcome to Jen's Hair Palour</h1>
-      <p>Your one-stop destination for premium hair services and products.</p>
-    </div>
-    <!--    <a class="cta-button" routerLink="/home">Explore Now</a>-->
-  </div>
-  <section class="services-section">
-    <h2>Our Services</h2>
-    <div class="service-list">
-      <div class="service-item">
-        <h3>Hair Styling</h3>
-        <p>From casual to glamorous, we’ve got you covered.</p>
       </div>
-      <div class="service-item">
-        <h3>Hair Coloring</h3>
-        <p>Transform your look with our expert coloring services.</p>
+      <div>
+        <h1>Welcome to Jen's Hair Palour</h1>
+        <p>Your one-stop destination for premium hair services and products.</p>
       </div>
-      <div class="service-item">
-        <h3>Hair Treatments</h3>
-        <p>Revitalize your hair with our nourishing treatments.</p>
-      </div>
+      <!--    <a class="cta-button" routerLink="/home">Explore Now</a>-->
     </div>
-  </section>
-  <h2>Styles samples</h2>
-  <div class="book-section">
-    @if (!isAuthenticated) {
-      <button (click)="openBooking()" class="book-button" mat-button>
-        <mat-icon>book_online</mat-icon>
-        <span>Book Now.</span>
-      </button>
-    } @else {
-      <div class="admin-btns">
-        <button (click)="showAllBooking()" mat-button>
+    <section class="services-section">
+      <h2>Our Services</h2>
+      <div class="service-list">
+        <div class="service-item">
+          <h3>Hair Styling</h3>
+          <p>From casual to glamorous, we’ve got you covered.</p>
+        </div>
+        <div class="service-item">
+          <h3>Hair Coloring</h3>
+          <p>Transform your look with our expert coloring services.</p>
+        </div>
+        <div class="service-item">
+          <h3>Hair Treatments</h3>
+          <p>Revitalize your hair with our nourishing treatments.</p>
+        </div>
+      </div>
+    </section>
+    <h2>Styles samples</h2>
+    <div class="book-section">
+      @if (!isAuthenticated) {
+        <button (click)="openBooking()" class="book-button" mat-button>
           <mat-icon>book_online</mat-icon>
-          <span>Booking List</span>
+          <span>Book Now.</span>
         </button>
-        <button (click)="showAllProducts()" mat-button>
-          <mat-icon>inventory</mat-icon>
-          <span>Products List</span>
-        </button>
-        <button (click)="addProduct()" mat-button>
-          <mat-icon>inventory</mat-icon>
-          <span>Add Product</span>
-        </button>
-      </div>
-    }
-  </div>
-  <div class="slider-container">
-    <button (click)="prevCard()" [disabled]="forwardDisabled"
-            class="nav-button prev"
-            mat-icon-button>
-      <mat-icon>chevron_left</mat-icon>
-    </button>
-    <div class="card-slider">
-      <mat-card *ngFor="let product of visibleProducts" class="card-item">
-        <img [alt]="product.name" [src]="product.image" mat-card-image/>
-        <mat-card-content>
-          <h3>{{ product.name }}</h3>
-          <p>{{ product.description }}</p>
-        </mat-card-content>
-        <mat-card-actions>
-          <button color="primary" mat-button>Learn More</button>
-        </mat-card-actions>
-      </mat-card>
+      } @else {
+        <div class="admin-btns">
+          <button (click)="showAllBooking()" mat-button>
+            <mat-icon>book_online</mat-icon>
+            <span>Booking List</span>
+          </button>
+          <button (click)="showAllProducts()" mat-button>
+            <mat-icon>inventory</mat-icon>
+            <span>Products List</span>
+          </button>
+          <button (click)="addProduct()" mat-button>
+            <mat-icon>inventory</mat-icon>
+            <span>Add Product</span>
+          </button>
+        </div>
+      }
     </div>
-    <button (click)="nextCard()" [disabled]="backwardsDisabled" class="nav-button next"
-            mat-icon-button>
-      <mat-icon>chevron_right</mat-icon>
-    </button>
+    <div class="slider-container">
+      <button (click)="prevCard()" [disabled]="forwardDisabled"
+        class="nav-button prev"
+        mat-icon-button>
+        <mat-icon>chevron_left</mat-icon>
+      </button>
+      <div class="card-slider">
+        @for (product of visibleProducts; track product) {
+          <mat-card class="card-item">
+            <img [alt]="product.name" [src]="product.image" mat-card-image/>
+            <mat-card-content>
+              <h3>{{ product.name }}</h3>
+              <p>{{ product.description }}</p>
+            </mat-card-content>
+            <mat-card-actions>
+              <button color="primary" mat-button>Learn More</button>
+            </mat-card-actions>
+          </mat-card>
+        }
+      </div>
+      <button (click)="nextCard()" [disabled]="backwardsDisabled" class="nav-button next"
+        mat-icon-button>
+        <mat-icon>chevron_right</mat-icon>
+      </button>
+    </div>
   </div>
-</div>

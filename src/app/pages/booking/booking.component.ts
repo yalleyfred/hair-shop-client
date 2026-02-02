@@ -11,7 +11,7 @@ import {
 } from '@angular/material/datepicker';
 import {MatSelect} from '@angular/material/select';
 import {MatInput, MatInputModule} from '@angular/material/input';
-import {CurrencyPipe, DatePipe, NgForOf} from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import {MatStep, MatStepLabel, MatStepper, MatStepperNext, MatStepperPrevious} from '@angular/material/stepper';
 import {BookingService} from '../../service/bookings/bookings.service';
 import {ServiceType, ServiceTypeEnum} from '../../models/booking.model';
@@ -31,7 +31,6 @@ import {PaymentComponent} from '../../components/payment/payment.component';
     MatSelect,
     MatDatepickerInput,
     MatInput,
-    NgForOf,
     CurrencyPipe,
     DatePipe,
     MatStep,
@@ -43,8 +42,8 @@ import {PaymentComponent} from '../../components/payment/payment.component';
     MatDatepickerModule,
     MatInputModule,
     MatNativeDateModule,
-    MatDialogClose,
-  ],
+    MatDialogClose
+],
   templateUrl: './booking.component.html',
   styleUrl: './booking.component.css'
 })

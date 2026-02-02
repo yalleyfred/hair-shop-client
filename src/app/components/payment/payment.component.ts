@@ -7,16 +7,14 @@ import {
 } from '../../models/payment.model';
 import {Router} from '@angular/router';
 import {PaymentService} from '../../service/payment/payment.service';
-import {NgForOf, NgIf} from '@angular/common';
+
 
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   imports: [
-    NgIf,
-    ReactiveFormsModule,
-    NgForOf
-  ],
+    ReactiveFormsModule
+],
   styleUrls: ['./payment.component.css']
 })
 export class PaymentComponent implements OnInit {

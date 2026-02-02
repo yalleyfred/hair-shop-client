@@ -1,123 +1,146 @@
 <div class="payment-container">
   <h2>Make Payment</h2>
 
-  <div *ngIf="success" class="success-message">
-    <h3>Payment Successful!</h3>
-    <p>Your transaction has been completed successfully.</p>
-    <button (click)="router.navigate(['/dashboard'])">Back to Dashboard</button>
-  </div>
-
-  <div *ngIf="bankTransferDetails" class="bank-transfer-details">
-    <h3>Bank Transfer Details</h3>
-    <p>Please make a transfer with the following details:</p>
-    <div class="details-container">
-      <div class="detail-row">
-        <span class="label">Bank:</span>
-        <span class="value">{{ bankTransferDetails.bank_name }}</span>
-      </div>
-      <div class="detail-row">
-        <span class="label">Account Number:</span>
-        <span class="value">{{ bankTransferDetails.account_number }}</span>
-      </div>
-      <div class="detail-row">
-        <span class="label">Account Name:</span>
-        <span class="value">{{ bankTransferDetails.account_name }}</span>
-      </div>
-      <div class="detail-row">
-        <span class="label">Amount:</span>
-        <span class="value">GHS {{ (bankTransferDetails.amount / 100).toFixed(2) }}</span>
-      </div>
+  @if (success) {
+    <div class="success-message">
+      <h3>Payment Successful!</h3>
+      <p>Your transaction has been completed successfully.</p>
+      <button (click)="router.navigate(['/dashboard'])">Back to Dashboard</button>
     </div>
-    <p class="note">Note: Your payment will be confirmed once the transfer is complete.</p>
-    <button (click)="bankTransferDetails = null">Choose Another Payment Method</button>
-  </div>
+  }
 
-  <form (ngSubmit)="onSubmit()" *ngIf="!success && !bankTransferDetails && !redirectUrl" [formGroup]="paymentForm">
-    <div class="form-group">
-      <label for="amount">Amount (GHS)</label>
-      <input
-        formControlName="amount"
-        id="amount"
-        min="1"
-        placeholder="Enter amount"
-        type="number"
-      >
-      <div *ngIf="paymentForm.get('amount')?.invalid && paymentForm.get('amount')?.touched" class="error-text">
-        Please enter a valid amount
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="email">Email</label>
-      <input
-        formControlName="email"
-        id="email"
-        placeholder="Enter your email"
-        type="email"
-      >
-      <div *ngIf="paymentForm.get('email')?.invalid && paymentForm.get('email')?.touched" class="error-text">
-        Please enter a valid email
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label for="paymentMethod">Payment Method</label>
-      <select formControlName="paymentMethod" id="paymentMethod">
-        <option *ngFor="let method of paymentMethods" [value]="method.value">
-          {{ method.label }}
-        </option>
-      </select>
-    </div>
-
-    <!-- Mobile Money specific fields -->
-    <div *ngIf="selectedPaymentMethod === 'mobile-money'">
-      <div class="form-group">
-        <label for="provider">Mobile Money Provider</label>
-        <select formControlName="provider" id="provider">
-          <option *ngFor="let provider of momoProviders" [value]="provider.value">
-            {{ provider.label }}
-          </option>
-        </select>
-      </div>
-
-      <div class="form-group">
-        <label for="phone">Phone Number</label>
-        <input
-          formControlName="phone"
-          id="phone"
-          placeholder="Enter your mobile money number (e.g., 0241234567)"
-          type="tel"
-        >
-        <div *ngIf="paymentForm.get('phone')?.invalid && paymentForm.get('phone')?.touched" class="error-text">
-          Please enter a valid 10-digit phone number starting with 0
+  @if (bankTransferDetails) {
+    <div class="bank-transfer-details">
+      <h3>Bank Transfer Details</h3>
+      <p>Please make a transfer with the following details:</p>
+      <div class="details-container">
+        <div class="detail-row">
+          <span class="label">Bank:</span>
+          <span class="value">{{ bankTransferDetails.bank_name }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Account Number:</span>
+          <span class="value">{{ bankTransferDetails.account_number }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Account Name:</span>
+          <span class="value">{{ bankTransferDetails.account_name }}</span>
+        </div>
+        <div class="detail-row">
+          <span class="label">Amount:</span>
+          <span class="value">GHS {{ (bankTransferDetails.amount / 100).toFixed(2) }}</span>
         </div>
       </div>
+      <p class="note">Note: Your payment will be confirmed once the transfer is complete.</p>
+      <button (click)="bankTransferDetails = null">Choose Another Payment Method</button>
     </div>
+  }
 
-    <!-- Payment method information -->
-    <div class="payment-info">
-      <div *ngIf="selectedPaymentMethod === 'mobile-money'" class="info-box">
-        <p>You'll receive a prompt on your phone to confirm the payment.</p>
+  @if (!success && !bankTransferDetails && !redirectUrl) {
+    <form (ngSubmit)="onSubmit()" [formGroup]="paymentForm">
+      <div class="form-group">
+        <label for="amount">Amount (GHS)</label>
+        <input
+          formControlName="amount"
+          id="amount"
+          min="1"
+          placeholder="Enter amount"
+          type="number"
+          >
+          @if (paymentForm.get('amount')?.invalid && paymentForm.get('amount')?.touched) {
+            <div class="error-text">
+              Please enter a valid amount
+            </div>
+          }
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input
+            formControlName="email"
+            id="email"
+            placeholder="Enter your email"
+            type="email"
+            >
+            @if (paymentForm.get('email')?.invalid && paymentForm.get('email')?.touched) {
+              <div class="error-text">
+                Please enter a valid email
+              </div>
+            }
+          </div>
+          <div class="form-group">
+            <label for="paymentMethod">Payment Method</label>
+            <select formControlName="paymentMethod" id="paymentMethod">
+              @for (method of paymentMethods; track method) {
+                <option [value]="method.value">
+                  {{ method.label }}
+                </option>
+              }
+            </select>
+          </div>
+          <!-- Mobile Money specific fields -->
+          @if (selectedPaymentMethod === 'mobile-money') {
+            <div>
+              <div class="form-group">
+                <label for="provider">Mobile Money Provider</label>
+                <select formControlName="provider" id="provider">
+                  @for (provider of momoProviders; track provider) {
+                    <option [value]="provider.value">
+                      {{ provider.label }}
+                    </option>
+                  }
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input
+                  formControlName="phone"
+                  id="phone"
+                  placeholder="Enter your mobile money number (e.g., 0241234567)"
+                  type="tel"
+                  >
+                  @if (paymentForm.get('phone')?.invalid && paymentForm.get('phone')?.touched) {
+                    <div class="error-text">
+                      Please enter a valid 10-digit phone number starting with 0
+                    </div>
+                  }
+                </div>
+              </div>
+            }
+            <!-- Payment method information -->
+            <div class="payment-info">
+              @if (selectedPaymentMethod === 'mobile-money') {
+                <div class="info-box">
+                  <p>You'll receive a prompt on your phone to confirm the payment.</p>
+                </div>
+              }
+              @if (selectedPaymentMethod === 'bank-transfer') {
+                <div class="info-box">
+                  <p>You'll receive bank account details to transfer the amount.</p>
+                </div>
+              }
+              @if (selectedPaymentMethod === 'card') {
+                <div class="info-box">
+                  <p>You'll be redirected to a secure page to enter your card details.</p>
+                </div>
+              }
+            </div>
+            @if (error) {
+              <div class="error-message">
+                {{ error }}
+              </div>
+            }
+            <button
+              [disabled]="paymentForm.invalid || loading"
+              class="payment-button"
+              type="submit"
+              >
+              @if (loading) {
+                <span>Processing...</span>
+              }
+              @if (!loading) {
+                <span>Continue to Payment</span>
+              }
+            </button>
+          </form>
+        }
       </div>
-      <div *ngIf="selectedPaymentMethod === 'bank-transfer'" class="info-box">
-        <p>You'll receive bank account details to transfer the amount.</p>
-      </div>
-      <div *ngIf="selectedPaymentMethod === 'card'" class="info-box">
-        <p>You'll be redirected to a secure page to enter your card details.</p>
-      </div>
-    </div>
-
-    <div *ngIf="error" class="error-message">
-      {{ error }}
-    </div>
-
-    <button
-      [disabled]="paymentForm.invalid || loading"
-      class="payment-button"
-      type="submit"
-    >
-      <span *ngIf="loading">Processing...</span>
-      <span *ngIf="!loading">Continue to Payment</span>
-    </button>
-  </form>
-</div>

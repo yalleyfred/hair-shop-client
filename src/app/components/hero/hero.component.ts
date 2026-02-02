@@ -1,7 +1,7 @@
 import {ChangeDetectionStrategy, Component, inject, Input} from '@angular/core';
 import {MatCard, MatCardActions, MatCardContent, MatCardImage} from '@angular/material/card';
 import {MatButton, MatIconButton} from '@angular/material/button';
-import {NgForOf} from '@angular/common';
+
 import {MatIcon} from '@angular/material/icon';
 import {DialogService} from '../../service/dialog/dialog.service';
 import {BookingComponent} from '../../pages/booking/booking.component';
@@ -16,10 +16,10 @@ import {AddProductComponent} from '../add-product/add-product.component';
     MatCard,
     MatCardActions,
     MatButton,
-    NgForOf,
     MatIcon,
     MatIconButton,
-    MatCardImage,],
+    MatCardImage
+],
   templateUrl: './hero.component.html',
   styleUrl: './hero.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush

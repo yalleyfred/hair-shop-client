@@ -1,31 +1,32 @@
 <div class="featured-products">
   <h2>Featured Products</h2>
-  <ng-container *ngIf="(products$ | async)?.length > 0; else noProducts">
+  @if ((products$ | async)?.length > 0) {
     <div class="product-grid">
-      <div *ngFor="let product of products$ | async" class="product-card">
-        <img [alt]="product.name" [src]="product.productUrl" class="product-image"/>
-        <div class="product-content">
-          <h3>{{ product.name }}</h3>
-          <p class="price">{{ product.price | currency:'GHS':'₵':'1.2-2' }}</p>
-          <p>{{ product.description }}</p>
-        </div>
-        <div class="product-actions">
-          <button (click)="buyProduct(product)" class="action-button" mat-raised-button>
-            Buy
-          </button>
-          <!--          <button (click)="addToCart(product)" class="action-button" mat-raised-button>-->
-          <!--            Add to Cart-->
+      @for (product of products$ | async; track product) {
+        <div class="product-card">
+          <img [alt]="product.name" [src]="product.productUrl" class="product-image"/>
+          <div class="product-content">
+            <h3>{{ product.name }}</h3>
+            <p class="price">{{ product.price | currency:'GHS':'₵':'1.2-2' }}</p>
+            <p>{{ product.description }}</p>
+          </div>
+          <div class="product-actions">
+            <button (click)="buyProduct(product)" class="action-button" mat-raised-button>
+              Buy
+            </button>
+            <!--          <button (click)="addToCart(product)" class="action-button" mat-raised-button>-->
+            <!--            Add to Cart-->
           <!--          </button>-->
         </div>
       </div>
-    </div>
-  </ng-container>
-</div>
-
-<ng-template #noProducts>
+    }
+  </div>
+} @else {
   <div class="no-products-message">
     <p class="message-icon">🚫</p>
     <p class="message-text">No products available at the moment.</p>
     <p class="message-hint">Please check back later for updates</p>
   </div>
-</ng-template>
+}
+</div>
+
