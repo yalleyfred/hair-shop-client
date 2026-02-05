@@ -43,7 +43,8 @@ export class ProductsComponent {
 
 
   constructor(private readonly productService: ProductsService, private readonly sideDialogService: DialogService) {
-    this.productService.getProducts().subscribe((products: ProductResponse[]) => this.products = products);
+    this.productService.products$.subscribe((products: ProductResponse[]) => this.products = products);
+    this.productService.refreshProducts();
   }
 
   public editProduct(product: ProductResponse) {

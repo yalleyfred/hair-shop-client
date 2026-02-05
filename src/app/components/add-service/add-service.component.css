@@ -1,0 +1,36 @@
+.service-form-card {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.close-button {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 8px;
+}
+
+mat-form-field {
+  display: block;
+  margin-bottom: 12px;
+}
+
+.actions {
+  margin: 12px 0;
+  display: flex;
+  gap: 8px;
+}
+
+.error {
+  color: #c62828;
+}
+
+.category-section {
+  margin-top: 16px;
+}
+
+.category-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}

@@ -1,1 +1,97 @@
-<p>services-list works!</p>
+<mat-card class="services-card">
+	<mat-card-header>
+		<mat-card-title>Services</mat-card-title>
+	</mat-card-header>
+	<mat-card-content>
+		<div class="actions">
+			<button (click)="openAddService()" color="primary" mat-flat-button>
+				<mat-icon>add</mat-icon>
+				<span>Add Service</span>
+			</button>
+		</div>
+
+		@if (isLoading) {
+			<p>Loading services...</p>
+		} @else {
+			@if (!categories.length) {
+				<p>No categories yet. Create one from the service form to begin.</p>
+			} @else {
+				<mat-accordion multi="true">
+					@for (category of categories; track trackCategory($index, category)) {
+						<mat-expansion-panel>
+							<mat-expansion-panel-header>
+								<mat-panel-title>{{ category.name }}</mat-panel-title>
+								<mat-panel-description>{{ category.description || 'No description provided' }}</mat-panel-description>
+							</mat-expansion-panel-header>
+
+							<div class="panel-actions">
+								<button (click)="editCategory(category)" mat-stroked-button>
+									<mat-icon>edit</mat-icon>
+									<span>Edit Category</span>
+								</button>
+								<button (click)="deleteCategory(category)" color="warn" mat-stroked-button>
+									<mat-icon>delete</mat-icon>
+									<span>Delete Category</span>
+								</button>
+							</div>
+
+							@if (servicesFor(category.id).length) {
+								<table [dataSource]="servicesFor(category.id)" class="mat-elevation-z1" mat-table>
+									<ng-container matColumnDef="name">
+										<th *matHeaderCellDef mat-header-cell>Name</th>
+										<td *matCellDef="let service" mat-cell>{{ service.name }}</td>
+									</ng-container>
+
+									<ng-container matColumnDef="price">
+										<th *matHeaderCellDef mat-header-cell>Price</th>
+										<td *matCellDef="let service" mat-cell>{{ service.price }}</td>
+									</ng-container>
+
+									<ng-container matColumnDef="duration">
+										<th *matHeaderCellDef mat-header-cell>Duration</th>
+										<td *matCellDef="let service" mat-cell>
+											@if (service.durationMinutes !== undefined && service.durationMinutes !== null) {
+												{{ service.durationMinutes }} mins
+											} @else {
+												-
+											}
+										</td>
+									</ng-container>
+
+									<ng-container matColumnDef="description">
+										<th *matHeaderCellDef mat-header-cell>Description</th>
+										<td *matCellDef="let service" mat-cell>{{ service.description }}</td>
+									</ng-container>
+
+									<ng-container matColumnDef="actions">
+										<th *matHeaderCellDef mat-header-cell>Actions</th>
+										<td *matCellDef="let service" mat-cell>
+											<button (click)="editService(service)" mat-icon-button>
+												<mat-icon>edit</mat-icon>
+											</button>
+											<button (click)="deleteService(service)" color="warn" mat-icon-button>
+												<mat-icon>delete</mat-icon>
+											</button>
+										</td>
+									</ng-container>
+
+									<tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+									<tr *matRowDef="let row; columns: displayedColumns" mat-row></tr>
+								</table>
+							} @else {
+								<div class="empty-state">No services in this category yet.</div>
+							}
+
+							<div class="panel-actions">
+								<button (click)="openAddService(category)" mat-stroked-button>
+									<mat-icon>add</mat-icon>
+									<span>Add Service to {{ category.name }}</span>
+								</button>
+							</div>
+						</mat-expansion-panel>
+					}
+				</mat-accordion>
+			}
+		}
+	</mat-card-content>
+</mat-card>

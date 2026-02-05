@@ -38,8 +38,20 @@ button[mat-raised-button] {
   color: white;
 }
 
+button[mat-raised-button][disabled] {
+  background-color: #c5c7d5;
+  color: #666;
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
 button[mat-button] {
   color: #3f51b5;
+}
+
+button[mat-button][disabled] {
+  color: #9fa6c4;
+  cursor: not-allowed;
 }
 
 h3 {

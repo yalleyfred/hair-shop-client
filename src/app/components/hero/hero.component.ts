@@ -8,6 +8,9 @@ import {BookingComponent} from '../../pages/booking/booking.component';
 import {BookingListComponent} from '../bookings-list/booking-list.component';
 import {ProductsComponent} from '../../pages/products/products.component';
 import {AddProductComponent} from '../add-product/add-product.component';
+import {ServicesListComponent} from '../services-list/services-list.component';
+import {AddServiceComponent} from '../add-service/add-service.component';
+import {ManageCategoriesComponent} from '../manage-categories/manage-categories.component';
 
 @Component({
   selector: 'app-hero',
@@ -97,5 +100,17 @@ export class HeroComponent {
 
   public addProduct() {
     this.sideDialogService.open(AddProductComponent);
+  }
+
+  public showAllServices() {
+    this.sideDialogService.open(ServicesListComponent);
+  }
+
+  public addService() {
+    this.sideDialogService.open(AddServiceComponent);
+  }
+
+  public manageCategories() {
+    this.sideDialogService.open(ManageCategoriesComponent);
   }
 }
