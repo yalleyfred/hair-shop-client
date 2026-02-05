@@ -1,0 +1,23 @@
+
+.services-card {
+	max-width: 900px;
+	margin: 0 auto;
+}
+
+.actions {
+	display: flex;
+	justify-content: flex-end;
+	margin-bottom: 12px;
+	gap: 8px;
+}
+
+.panel-actions {
+	margin-top: 12px;
+	display: flex;
+	justify-content: flex-end;
+}
+
+.empty-state {
+	padding: 8px 0;
+	color: #555;
+}

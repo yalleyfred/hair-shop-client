@@ -47,9 +47,21 @@
             <mat-icon>inventory</mat-icon>
             <span>Products List</span>
           </button>
+          <button (click)="showAllServices()" mat-button>
+            <mat-icon>design_services</mat-icon>
+            <span>Services List</span>
+          </button>
+          <button (click)="manageCategories()" mat-button>
+            <mat-icon>category</mat-icon>
+            <span>Manage Categories</span>
+          </button>
           <button (click)="addProduct()" mat-button>
             <mat-icon>inventory</mat-icon>
             <span>Add Product</span>
+          </button>
+          <button (click)="addService()" mat-button>
+            <mat-icon>playlist_add</mat-icon>
+            <span>Add Service</span>
           </button>
         </div>
       }

@@ -3,7 +3,7 @@
 </div>
 <mat-card class="product-form-card">
   <mat-card-header>
-    <mat-card-title>Add Product</mat-card-title>
+    <mat-card-title>{{ dialogData ? 'Edit Product' : 'Add Product' }}</mat-card-title>
   </mat-card-header>
   <mat-card-content>
     <form (ngSubmit)="onSubmit()" [formGroup]="productForm">
@@ -11,7 +11,7 @@
       <mat-form-field appearance="fill">
         <mat-label>Product Name</mat-label>
         <input formControlName="name" matInput placeholder="Enter product name"/>
-        @if (productForm.get('name')?.hasError('required')) {
+        @if (productForm.get('name')?.hasError('required') && (productForm.get('name')?.touched || submitted)) {
           <mat-error>
             Name is required
           </mat-error>
@@ -27,7 +27,7 @@
           placeholder="Enter price"
           type="number"
           />
-          @if (productForm.get('price')?.hasError('required')) {
+          @if (productForm.get('price')?.hasError('required') && (productForm.get('price')?.touched || submitted)) {
             <mat-error>
               Price is required
             </mat-error>
@@ -47,7 +47,7 @@
             matInput
             placeholder="Enter product description"
           ></textarea>
-          @if (productForm.get('description')?.hasError('required')) {
+          @if (productForm.get('description')?.hasError('required') && (productForm.get('description')?.touched || submitted)) {
             <mat-error>
               Description is required
             </mat-error>
@@ -63,27 +63,23 @@
             id="image"
             type="file"
             />
-            <!--        <img *ngIf="dialogData?.productUrl" [src]="dialogData?.productUrl" alt="Product Image"-->
-            <!--             class="product-image">-->
-            @if (productForm.get('image')?.hasError('required')) {
-              <mat-error>
-                Image is required
-              </mat-error>
-            }
-          </div>
+          @if (productForm.get('image')?.hasError('required') && (productForm.get('image')?.touched || submitted)) {
+            <p class="error">Product image is required</p>
+          }
+        </div>
 
           <!-- Submit Button -->
           <button
-            [disabled]="productForm.invalid"
+            [disabled]="productForm.invalid || isSaving"
             color="primary"
             mat-raised-button
             type="submit"
             >
-            Add Product
+            {{ dialogData ? 'Save Changes' : 'Add Product' }}
           </button>
 
           @if (errorMessage) {
-            <p>{{ errorMessage }}</p>
+            <p class="error">{{ errorMessage }}</p>
           }
         </form>
       </mat-card-content>

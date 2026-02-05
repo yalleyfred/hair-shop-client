@@ -1,0 +1,98 @@
+<mat-card class="category-card">
+  <mat-card-header>
+    <mat-card-title>Manage Service Categories</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form (ngSubmit)="createCategory()" [formGroup]="categoryForm" class="create-form">
+      <div class="form-grid">
+        <mat-form-field appearance="fill">
+          <mat-label>Category Name</mat-label>
+          <input formControlName="name" matInput placeholder="e.g. Braids" />
+          @if (categoryForm.get('name')?.hasError('required') && (categoryForm.get('name')?.touched || createSubmitted)) {
+            <mat-error>Name is required</mat-error>
+          }
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Description</mat-label>
+          <textarea formControlName="description" matInput placeholder="Optional description"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="actions">
+        <button [disabled]="categoryForm.invalid || isSaving" color="primary" mat-raised-button type="submit">
+          @if (isSaving) {
+            <mat-progress-spinner diameter="18" mode="indeterminate"></mat-progress-spinner>
+          }
+          <span>{{ isSaving ? 'Saving...' : 'Add Category' }}</span>
+        </button>
+      </div>
+
+      @if (errorMessage) {
+        <p class="error">{{ errorMessage }}</p>
+      }
+    </form>
+
+    <mat-divider></mat-divider>
+
+    <div class="list-header">
+      <h4>Existing Categories</h4>
+    </div>
+
+    <div class="category-grid">
+      @for (category of categories; track category.id) {
+        <mat-card class="category-tile">
+          <div class="tile-header">
+            <div>
+              <div class="name">{{ category.name }}</div>
+              <div class="desc">{{ category.description || 'No description' }}</div>
+            </div>
+            <div class="list-actions">
+              <button (click)="editCategory(category)" mat-icon-button>
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button (click)="deleteCategory(category)" [disabled]="isDeletingId === category.id" color="warn" mat-icon-button>
+                @if (isDeletingId === category.id) {
+                  <mat-progress-spinner diameter="18" mode="indeterminate"></mat-progress-spinner>
+                } @else {
+                  <mat-icon>delete</mat-icon>
+                }
+              </button>
+            </div>
+          </div>
+
+          @if (editingCategoryId === category.id) {
+            <form (ngSubmit)="saveEdit()" [formGroup]="editForm" class="edit-form">
+              <mat-form-field appearance="fill">
+                <mat-label>Category Name</mat-label>
+                <input formControlName="name" matInput />
+                @if (editForm.get('name')?.hasError('required') && (editForm.get('name')?.touched || editSubmitted)) {
+                  <mat-error>Name is required</mat-error>
+                }
+              </mat-form-field>
+
+              <mat-form-field appearance="fill">
+                <mat-label>Description</mat-label>
+                <textarea formControlName="description" matInput></textarea>
+              </mat-form-field>
+
+              <div class="edit-actions">
+                <button (click)="cancelEdit()" mat-stroked-button type="button">Cancel</button>
+                <button [disabled]="editForm.invalid || isUpdating" color="primary" mat-raised-button type="submit">
+                  @if (isUpdating) {
+                    <mat-progress-spinner diameter="18" mode="indeterminate"></mat-progress-spinner>
+                  }
+                  <span>{{ isUpdating ? 'Saving...' : 'Save Changes' }}</span>
+                </button>
+              </div>
+            </form>
+          }
+        </mat-card>
+      }
+    </div>
+
+    @if (!categories.length) {
+      <div class="empty-state">No categories yet. Create one to get started.</div>
+    }
+  </mat-card-content>
+</mat-card>

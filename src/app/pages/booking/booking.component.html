@@ -7,17 +7,41 @@
         <ng-template matStepLabel>Select a Service</ng-template>
         <h3>Select a Service</h3>
         <mat-form-field>
-          <mat-select formControlName="service" placeholder="choose a service">
+          <mat-select formControlName="service" placeholder="Choose a service">
             <mat-option>--</mat-option>
-            @for (service of services; track service) {
-              <mat-option (click)="selectService(service)" [value]="service.name">{{ service.name }}
-                - {{ service.price | currency }}
-              </mat-option>
+            @for (category of categories; track category.id) {
+              <mat-optgroup [label]="category.name">
+                @for (service of services; track service.id) {
+                  @if (service.categoryId === category.id) {
+                    <mat-option (click)="selectService(service)" [value]="service.id">
+                      {{ service.name }} — {{ service.price | currency }}
+                    </mat-option>
+                  }
+                }
+              </mat-optgroup>
             }
           </mat-select>
         </mat-form-field>
+
+        @if (selectedService) {
+          <mat-card class="service-detail">
+            <mat-card-header>
+              <mat-card-title>{{ selectedService.name }}</mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+              <p>{{ selectedService.description }}</p>
+              <p><strong>Price:</strong> {{ selectedService.price | currency }}</p>
+              @if (selectedService.durationMinutes) {
+                <p><strong>Duration:</strong> {{ selectedService.durationMinutes }} mins</p>
+              }
+              @if (selectedService.categoryId) {
+                <p><strong>Category:</strong> {{ categoryName(selectedService.categoryId) }}</p>
+              }
+            </mat-card-content>
+          </mat-card>
+        }
         <div class="button-container">
-          <button color="primary" mat-raised-button matStepperNext>Next</button>
+          <button [disabled]="serviceFormGroup.invalid" color="primary" mat-raised-button matStepperNext>Next</button>
         </div>
       </form>
     </mat-step>
@@ -42,7 +66,7 @@
           </mat-select>
         </mat-form-field>
         <div class="button-container">
-          <button color="primary" mat-raised-button matStepperNext>Next</button>
+          <button [disabled]="dateTimeFormGroup.invalid" color="primary" mat-raised-button matStepperNext>Next</button>
           <button mat-button matStepperPrevious>Back</button>
         </div>
       </form>
@@ -63,8 +87,8 @@
           <input formControlName="email" matInput placeholder="Email">
         </mat-form-field>
         <div class="button-container">
-          <button (click)="makePayment()" color="primary" mat-raised-button>Make Payment</button>
-          <button (click)="confirmBooking()" color="primary" mat-raised-button matStepperNext>Confirm Booking</button>
+          <button (click)="makePayment()" [disabled]="detailsFormGroup.invalid || !selectedService" color="primary" mat-raised-button>Make Payment</button>
+          <button (click)="confirmBooking()" [disabled]="detailsFormGroup.invalid || !selectedService" color="primary" mat-raised-button matStepperNext>Confirm Booking</button>
           <button mat-button matStepperPrevious>Back</button>
         </div>
       </form>
