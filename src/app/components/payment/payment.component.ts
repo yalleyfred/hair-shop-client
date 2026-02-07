@@ -42,8 +42,8 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
   momoProviders = [
     {value: 'mtn', label: 'MTN Mobile Money'},
-    {value: 'vodafone', label: 'Vodafone Cash'},
-    {value: 'airtel', label: 'AirtelTigo Money'}
+    // {value: 'vodafone', label: 'Vodafone Cash'},
+    // {value: 'airtel', label: 'AirtelTigo Money'}
   ];
 
   paymentMethods = [
