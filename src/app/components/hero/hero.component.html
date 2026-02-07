@@ -14,20 +14,30 @@
       <!--    <a class="cta-button" routerLink="/home">Explore Now</a>-->
     </div>
     <section class="services-section">
+      @let serviceForwardDisabled = this.serviceIndex <= this.visibleServiceCount - 1;
+      @let serviceBackwardsDisabled = this.serviceIndex >= this.services.length - 1;
       <h2>Our Services</h2>
-      <div class="service-list">
-        <div class="service-item">
-          <h3>Hair Styling</h3>
-          <p>From casual to glamorous, we’ve got you covered.</p>
+      <div class="slider-container services-slider">
+        <button (click)="prevService()" [disabled]="serviceForwardDisabled"
+          class="nav-button prev"
+          mat-icon-button>
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <div class="card-slider services-track"
+          [class.is-animating]="serviceAnimating"
+          [class.is-next]="serviceAnimationDirection === 'next'"
+          [class.is-prev]="serviceAnimationDirection === 'prev'">
+          @for (service of visibleServices; track service) {
+            <div class="service-card">
+              <h3>{{ service.name }}</h3>
+              <p>{{ service.description }}</p>
+            </div>
+          }
         </div>
-        <div class="service-item">
-          <h3>Hair Coloring</h3>
-          <p>Transform your look with our expert coloring services.</p>
-        </div>
-        <div class="service-item">
-          <h3>Hair Treatments</h3>
-          <p>Revitalize your hair with our nourishing treatments.</p>
-        </div>
+        <button (click)="nextService()" [disabled]="serviceBackwardsDisabled" class="nav-button next"
+          mat-icon-button>
+          <mat-icon>chevron_right</mat-icon>
+        </button>
       </div>
     </section>
     <h2>Styles samples</h2>

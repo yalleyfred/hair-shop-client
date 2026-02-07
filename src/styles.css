@@ -47,12 +47,12 @@ h2 {
 }
 
 button {
-  background-color: #683e1d !important;
+  background-color: #070403b6 !important;
   color: white !important;
 }
 
 .button:hover {
-  background-color: #683e1d;
+  background-color: #110101;
 }
 
 mat-card {
