@@ -1,2 +1,1 @@
-// https://hair-shop-server.onrender.com
-export const endpoint = 'http://localhost:2500';
+export const endpoint = 'https://hair-shop-server.onrender.com';
