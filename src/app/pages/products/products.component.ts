@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {MatButton, MatIconButton} from "@angular/material/button";
+import {MatIconButton} from "@angular/material/button";
 import {
   MatCell,
   MatCellDef,
@@ -19,7 +19,6 @@ import {AddProductComponent} from '../../components/add-product/add-product.comp
 @Component({
   selector: 'app-products',
   imports: [
-    MatButton,
     MatCell,
     MatCellDef,
     MatColumnDef,
@@ -38,7 +37,7 @@ import {AddProductComponent} from '../../components/add-product/add-product.comp
   styleUrl: './products.component.css'
 })
 export class ProductsComponent {
-  public displayedColumns: string[] = ['id', 'name', 'price', 'description', 'actions'];
+  public displayedColumns: string[] = ['id', 'name', 'price', 'quantity', 'description', 'actions'];
   public products: ProductResponse[] = [];
 
 

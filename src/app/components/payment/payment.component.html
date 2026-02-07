@@ -1,11 +1,19 @@
 <div class="payment-container">
-  <h2>Make Payment</h2>
+  <div class="payment-header">
+    <h2>Make Payment</h2>
+    <button mat-icon-button type="button" class="back-button" mat-dialog-close>
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
 
   @if (success) {
     <div class="success-message">
       <h3>Payment Successful!</h3>
       <p>Your transaction has been completed successfully.</p>
-      <button (click)="router.navigate(['/dashboard'])">Back to Dashboard</button>
+      <div class="success-actions">
+        <button mat-button type="button" mat-dialog-close>Back to Cart</button>
+        <button mat-button type="button" (click)="router.navigate(['/dashboard'])">Back to Dashboard</button>
+      </div>
     </div>
   }
 

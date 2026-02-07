@@ -30,11 +30,6 @@
   margin-bottom: 1rem; /* Add space between cards on small screens */
 }
 
-h2 {
-  margin-bottom: 1.5rem;
-  color: #683e1d;
-}
-
 .form-group {
   margin-bottom: 1rem;
   text-align: left;
@@ -97,13 +92,6 @@ mat-card-title {
 
 mat-card-subtitle {
   color: #683e1d;
-}
-
-.logo {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin-bottom: 1rem;
 }
 
 mat-card-content {

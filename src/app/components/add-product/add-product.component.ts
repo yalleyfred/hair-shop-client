@@ -5,6 +5,7 @@ import {MatInput} from '@angular/material/input';
 
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
 import {MatButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
 import {ProductsService} from '../../service/products/products.service';
 import {MAT_DIALOG_DATA, MatDialogClose} from '@angular/material/dialog';
 import {ProductResponse} from '../../models/product.model';
@@ -22,7 +23,8 @@ import {ProductResponse} from '../../models/product.model';
     MatLabel,
     MatCard,
     MatButton,
-    MatDialogClose
+    MatDialogClose,
+    MatIcon
 ],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css'
@@ -33,12 +35,19 @@ export class AddProductComponent {
   public errorMessage: string = '';
   public isSaving = false;
   public submitted = false;
+  public readonly isEditMode: boolean;
 
-  constructor(private readonly fb: FormBuilder, private readonly productsService: ProductsService, @Inject(MAT_DIALOG_DATA) protected readonly dialogData: ProductResponse) {
-    if (this.dialogData === null) {
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly productsService: ProductsService,
+    @Inject(MAT_DIALOG_DATA) protected readonly dialogData: ProductResponse | null
+  ) {
+    this.isEditMode = !!this.dialogData;
+    if (!this.dialogData) {
       this.productForm = this.fb.group({
         name: ['', Validators.required],
         price: [null, [Validators.required, Validators.min(0)]],
+        quantity: [null, [Validators.required, Validators.min(0)]],
         description: ['', Validators.required],
         image: [null, Validators.required],
       });
@@ -47,8 +56,9 @@ export class AddProductComponent {
       this.productForm = this.fb.group({
         name: [this.dialogData.name, Validators.required],
         price: [Number(this.dialogData.price), [Validators.required, Validators.min(0)]],
+        quantity: [Number(this.dialogData.quantity ?? 0), [Validators.required, Validators.min(0)]],
         description: [this.dialogData.description, Validators.required],
-        image: [null, Validators.required],
+        image: [null],
       })
     }
   }
@@ -72,9 +82,11 @@ export class AddProductComponent {
     }
 
     const priceValue = Number(this.productForm.get('price')?.value);
+    const quantityValue = Number(this.productForm.get('quantity')?.value);
     const formData = new FormData();
     formData.append('name', this.productForm.get('name')?.value);
     formData.append('price', priceValue.toString());
+    formData.append('quantity', quantityValue.toString());
     formData.append('description', this.productForm.get('description')?.value);
     if (this.selectedFile) {
       formData.append('image', this.selectedFile);

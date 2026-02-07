@@ -30,19 +30,6 @@
     }
 
 
-    ul {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-
-      .nav-list {
-        list-style-type: none;
-        margin-right: 30px;
-        display: flex;
-        align-items: center;
-      }
-    }
-
     .controls {
       display: flex;
       justify-content: center;
@@ -53,9 +40,49 @@
         align-items: center;
         margin-right: 20px;
       }
+
+      .cart-button {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background-color: transparent !important;
+        box-shadow: none;
+        color: white;
+        text-transform: none;
+        font-weight: 600;
+        min-width: unset;
+      }
+
+      .cart-icon {
+        margin-right: 0;
+        font-size: 20px;
+      }
+
+      .cart-label {
+        letter-spacing: 0.2px;
+      }
     }
   }
+}
 
+:host ::ng-deep .cart-button {
+  background-color: transparent !important;
+}
+:host ::ng-deep .cart-badge .mat-badge-content {
+  right: -8px;
+  top: -6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  font-size: 11px;
+  line-height: 18px;
+}
+
+:host ::ng-deep .cart-button .mat-mdc-button-persistent-ripple,
+:host ::ng-deep .cart-button .mat-mdc-button-ripple {
+  opacity: 0;
 }
 
 

@@ -1,4 +1,4 @@
-@let forwardDisabled = this.currentIndex === this.visibleProducts.length - 1;
+@let forwardDisabled = this.currentIndex <= this.visibleProductCount - 1;
 @let backwardsDisabled = this.currentIndex === this.products.length - 1;
 
 <div class="hero-section">
@@ -11,23 +11,32 @@
         <h1>Welcome to Jen's Hair Palour</h1>
         <p>Your one-stop destination for premium hair services and products.</p>
       </div>
-      <!--    <a class="cta-button" routerLink="/home">Explore Now</a>-->
     </div>
     <section class="services-section">
+      @let serviceForwardDisabled = this.serviceIndex <= this.visibleServiceCount - 1;
+      @let serviceBackwardsDisabled = this.serviceIndex >= this.services.length - 1;
       <h2>Our Services</h2>
-      <div class="service-list">
-        <div class="service-item">
-          <h3>Hair Styling</h3>
-          <p>From casual to glamorous, we’ve got you covered.</p>
+      <div class="slider-container services-slider">
+        <button (click)="prevService()" [disabled]="serviceForwardDisabled"
+          class="nav-button prev"
+          mat-icon-button>
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+        <div class="card-slider services-track"
+          [class.is-animating]="serviceAnimating"
+          [class.is-next]="serviceAnimationDirection === 'next'"
+          [class.is-prev]="serviceAnimationDirection === 'prev'">
+          @for (service of visibleServices; track service) {
+            <div class="service-card">
+              <h3>{{ service.name }}</h3>
+              <p>{{ service.description }}</p>
+            </div>
+          }
         </div>
-        <div class="service-item">
-          <h3>Hair Coloring</h3>
-          <p>Transform your look with our expert coloring services.</p>
-        </div>
-        <div class="service-item">
-          <h3>Hair Treatments</h3>
-          <p>Revitalize your hair with our nourishing treatments.</p>
-        </div>
+        <button (click)="nextService()" [disabled]="serviceBackwardsDisabled" class="nav-button next"
+          mat-icon-button>
+          <mat-icon>chevron_right</mat-icon>
+        </button>
       </div>
     </section>
     <h2>Styles samples</h2>
@@ -72,17 +81,16 @@
         mat-icon-button>
         <mat-icon>chevron_left</mat-icon>
       </button>
-      <div class="card-slider">
+      <div class="card-slider products-track"
+        [class.is-animating]="productAnimating"
+        [class.is-next]="productAnimationDirection === 'next'"
+        [class.is-prev]="productAnimationDirection === 'prev'">
         @for (product of visibleProducts; track product) {
           <mat-card class="card-item">
             <img [alt]="product.name" [src]="product.image" mat-card-image/>
             <mat-card-content>
               <h3>{{ product.name }}</h3>
-              <p>{{ product.description }}</p>
             </mat-card-content>
-            <mat-card-actions>
-              <button color="primary" mat-button>Learn More</button>
-            </mat-card-actions>
           </mat-card>
         }
       </div>

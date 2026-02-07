@@ -1,5 +1,7 @@
 <div class="close-button">
-  <button color="primary" mat-dialog-close mat-raised-button>X</button>
+  <button mat-icon-button class="back-button" mat-dialog-close>
+    <mat-icon>arrow_back</mat-icon>
+  </button>
 </div>
 <mat-card class="product-form-card">
   <mat-card-header>
@@ -7,7 +9,6 @@
   </mat-card-header>
   <mat-card-content>
     <form (ngSubmit)="onSubmit()" [formGroup]="productForm">
-      <!-- Name Field -->
       <mat-form-field appearance="fill">
         <mat-label>Product Name</mat-label>
         <input formControlName="name" matInput placeholder="Enter product name"/>
@@ -18,7 +19,6 @@
         }
       </mat-form-field>
 
-      <!-- Price Field -->
       <mat-form-field appearance="fill">
         <mat-label>Price</mat-label>
         <input
@@ -39,7 +39,26 @@
           }
         </mat-form-field>
 
-        <!-- Description Field -->
+        <mat-form-field appearance="fill">
+          <mat-label>Quantity</mat-label>
+          <input
+            formControlName="quantity"
+            matInput
+            placeholder="Enter quantity"
+            type="number"
+            />
+            @if (productForm.get('quantity')?.hasError('required') && (productForm.get('quantity')?.touched || submitted)) {
+              <mat-error>
+                Quantity is required
+              </mat-error>
+            }
+            @if (productForm.get('quantity')?.hasError('min')) {
+              <mat-error>
+                Quantity must be 0 or greater
+              </mat-error>
+            }
+          </mat-form-field>
+
         <mat-form-field appearance="fill">
           <mat-label>Description</mat-label>
           <textarea
@@ -54,7 +73,6 @@
           }
         </mat-form-field>
 
-        <!-- Image Upload Field -->
         <div>
           <label for="image">Product Image</label>
           <input
@@ -68,7 +86,6 @@
           }
         </div>
 
-          <!-- Submit Button -->
           <button
             [disabled]="productForm.invalid || isSaving"
             color="primary"

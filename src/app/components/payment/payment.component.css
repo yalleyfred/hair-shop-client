@@ -7,11 +7,20 @@
   background-color: #fff;
 }
 
-h2 {
-  text-align: center;
+.payment-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
   margin-bottom: 20px;
+}
+
+.payment-header h2 {
+  margin: 0;
   color: #333;
 }
+
+
 
 .form-group {
   margin-bottom: 20px;
@@ -75,6 +84,13 @@ h2 {
       background-color: #218838;
     }
   }
+}
+
+.success-actions {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 12px;
 }
 
 .bank-transfer-details {
