@@ -8,14 +8,19 @@ import {
 } from '../../models/payment.model';
 import {Router} from '@angular/router';
 import {PaymentService} from '../../service/payment/payment.service';
-import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import {MAT_DIALOG_DATA, MatDialogClose} from '@angular/material/dialog';
+import {MatButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
 
 
 @Component({
   selector: 'app-payment',
   templateUrl: './payment.component.html',
   imports: [
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatDialogClose,
+    MatButton,
+    MatIcon
 ],
   styleUrls: ['./payment.component.css']
 })

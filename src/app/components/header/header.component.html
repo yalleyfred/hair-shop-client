@@ -1,3 +1,5 @@
+@let cartCount = cartCount$ | async;
+
 <div class="toolbar">
   <div class="logo">
       <img alt="logo"
@@ -7,6 +9,18 @@
   </div>
   <div>
     <div class="controls">
+      <div class="options">
+        <button mat-button type="button" class="cart-button" (click)="openCart()">
+          <mat-icon
+            class="cart-icon cart-badge"
+            [matBadge]="cartCount"
+            [matBadgeHidden]="!cartCount"
+            matBadgeColor="warn"
+            matBadgeOverlap="false"
+          >shopping_cart</mat-icon>
+          <span class="cart-label">Cart</span>
+        </button>
+      </div>
       @if(!isAuthenticated) {
         <div class="options">
           <mat-icon>login</mat-icon>

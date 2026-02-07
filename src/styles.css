@@ -60,14 +60,20 @@ mat-card {
   color: black;
 }
 
-.cdk-overlay-pane.mat-mdc-dialog-panel {
-  max-width: 100% !important;
-}
-
 .close-button {
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
+}
+
+.back-button {
+  background-color: transparent !important;
+  color: #683e1d !important;
+  box-shadow: none !important;
+}
+
+.back-button mat-icon {
+  margin-right: 0;
 }
 
 

@@ -1,5 +1,8 @@
 <div class="featured-products">
-  <h2>Featured Products</h2>
+  <div class="featured-header">
+    <h2>Featured Products</h2>
+    <button class="cart-link" mat-button type="button" (click)="openCart()">View Cart</button>
+  </div>
   @if ((products$ | async)?.length > 0) {
     <div class="product-grid">
       @for (product of products$ | async; track product) {
@@ -11,17 +14,17 @@
             <p>{{ product.description }}</p>
           </div>
           <div class="product-actions">
-            <button (click)="buyProduct(product)" class="action-button" mat-raised-button>
-              Buy
+            <button (click)="addToCart(product)" class="action-button" mat-raised-button>
+              Add to Cart
             </button>
             <!--          <button (click)="addToCart(product)" class="action-button" mat-raised-button>-->
             <!--            Add to Cart-->
-          <!--          </button>-->
+            <!--          </button>-->
+          </div>
         </div>
-      </div>
-    }
-  </div>
-} @else {
+      }
+    </div>
+  } @else {
   <div class="no-products-message">
     <p class="message-icon">🚫</p>
     <p class="message-text">No products available at the moment.</p>

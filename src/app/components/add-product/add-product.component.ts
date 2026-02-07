@@ -5,6 +5,7 @@ import {MatInput} from '@angular/material/input';
 
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
 import {MatButton} from '@angular/material/button';
+import {MatIcon} from '@angular/material/icon';
 import {ProductsService} from '../../service/products/products.service';
 import {MAT_DIALOG_DATA, MatDialogClose} from '@angular/material/dialog';
 import {ProductResponse} from '../../models/product.model';
@@ -22,7 +23,8 @@ import {ProductResponse} from '../../models/product.model';
     MatLabel,
     MatCard,
     MatButton,
-    MatDialogClose
+    MatDialogClose,
+    MatIcon
 ],
   templateUrl: './add-product.component.html',
   styleUrl: './add-product.component.css'

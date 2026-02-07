@@ -1,4 +1,4 @@
-@let forwardDisabled = this.currentIndex === this.visibleProducts.length - 1;
+@let forwardDisabled = this.currentIndex <= this.visibleProductCount - 1;
 @let backwardsDisabled = this.currentIndex === this.products.length - 1;
 
 <div class="hero-section">
@@ -82,17 +82,16 @@
         mat-icon-button>
         <mat-icon>chevron_left</mat-icon>
       </button>
-      <div class="card-slider">
+      <div class="card-slider products-track"
+        [class.is-animating]="productAnimating"
+        [class.is-next]="productAnimationDirection === 'next'"
+        [class.is-prev]="productAnimationDirection === 'prev'">
         @for (product of visibleProducts; track product) {
           <mat-card class="card-item">
             <img [alt]="product.name" [src]="product.image" mat-card-image/>
             <mat-card-content>
               <h3>{{ product.name }}</h3>
-              <p>{{ product.description }}</p>
             </mat-card-content>
-            <mat-card-actions>
-              <button color="primary" mat-button>Learn More</button>
-            </mat-card-actions>
           </mat-card>
         }
       </div>
