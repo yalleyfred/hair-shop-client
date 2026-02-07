@@ -4,6 +4,6 @@ import {LoginComponent} from './pages/login/login.component';
 
 export const routes: Routes = [
   {path: '', component: HomeComponent},
-  {path: 'login', component: LoginComponent},
+  {path: 'login', loadComponent: () => import('./pages/login/login.component').then(m => m.LoginComponent)},
   {path: '**', redirectTo: '', pathMatch: 'full'}
 ];

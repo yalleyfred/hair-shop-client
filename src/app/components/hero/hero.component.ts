@@ -4,13 +4,6 @@ import {MatButton, MatIconButton} from '@angular/material/button';
 
 import {MatIcon} from '@angular/material/icon';
 import {DialogService} from '../../service/dialog/dialog.service';
-import {BookingComponent} from '../../pages/booking/booking.component';
-import {BookingListComponent} from '../bookings-list/booking-list.component';
-import {ProductsComponent} from '../../pages/products/products.component';
-import {AddProductComponent} from '../add-product/add-product.component';
-import {ServicesListComponent} from '../services-list/services-list.component';
-import {AddServiceComponent} from '../add-service/add-service.component';
-import {ManageCategoriesComponent} from '../manage-categories/manage-categories.component';
 
 @Component({
   selector: 'app-hero',
@@ -86,31 +79,38 @@ export class HeroComponent {
     );
   }
 
-  public openBooking() {
+  public async openBooking() {
+    const {BookingComponent} = await import('../../pages/booking/booking.component');
     this.sideDialogService.open(BookingComponent);
   }
 
-  public showAllBooking() {
+  public async showAllBooking() {
+    const {BookingListComponent} = await import('../bookings-list/booking-list.component');
     this.sideDialogService.open(BookingListComponent);
   }
 
-  public showAllProducts() {
+  public async showAllProducts() {
+    const {ProductsComponent} = await import('../../pages/products/products.component');
     this.sideDialogService.open(ProductsComponent);
   }
 
-  public addProduct() {
+  public async addProduct() {
+    const {AddProductComponent} = await import('../add-product/add-product.component');
     this.sideDialogService.open(AddProductComponent);
   }
 
-  public showAllServices() {
+  public async showAllServices() {
+    const {ServicesListComponent} = await import('../services-list/services-list.component');
     this.sideDialogService.open(ServicesListComponent);
   }
 
-  public addService() {
+  public async addService() {
+    const {AddServiceComponent} = await import('../add-service/add-service.component');
     this.sideDialogService.open(AddServiceComponent);
   }
 
-  public manageCategories() {
+  public async manageCategories() {
+    const {ManageCategoriesComponent} = await import('../manage-categories/manage-categories.component');
     this.sideDialogService.open(ManageCategoriesComponent);
   }
 }
