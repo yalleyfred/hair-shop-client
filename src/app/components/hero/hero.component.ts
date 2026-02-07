@@ -128,7 +128,6 @@ export class HeroComponent implements OnInit, OnDestroy {
     this.visibleServiceCount = this.getVisibleServiceCount();
     this.serviceIndex = Math.max(this.visibleServiceCount - 1, 0);
     this.visibleServices = this.services.slice(0, this.visibleServiceCount);
-    console.log('visProd', this.visibleProducts);
     this.startAutoSlide();
     this.startProductAutoSlide();
 

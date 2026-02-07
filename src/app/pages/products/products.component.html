@@ -19,18 +19,18 @@
       <td *matCellDef="let product" mat-cell>{{ product.price }}</td>
     </ng-container>
 
+    <!-- Quantity Column -->
+    <ng-container matColumnDef="quantity">
+      <th *matHeaderCellDef mat-header-cell>Quantity</th>
+      <td *matCellDef="let product" mat-cell>{{ product.quantity }}</td>
+    </ng-container>
+
     <!-- Description Column -->
     <ng-container matColumnDef="description">
       <th *matHeaderCellDef mat-header-cell>Description</th>
       <td *matCellDef="let product" mat-cell>{{ product.description }}</td>
     </ng-container>
 
-
-    <!--    &lt;!&ndash; Status Column &ndash;&gt;-->
-    <!--    <ng-container matColumnDef="status">-->
-    <!--      <th *matHeaderCellDef mat-header-cell>Status</th>-->
-    <!--      <td *matCellDef="let booking" mat-cell>{{ booking.status }}</td>-->
-    <!--    </ng-container>-->
 
     <!-- Actions Column -->
     <ng-container matColumnDef="actions">

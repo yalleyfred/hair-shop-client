@@ -1,6 +1,6 @@
 import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {AsyncPipe, CurrencyPipe} from '@angular/common';
-import {Router, RouterLink} from '@angular/router';
+import {Router} from '@angular/router';
 import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
 import {MatDialogClose, MatDialogRef} from '@angular/material/dialog';
@@ -18,7 +18,6 @@ import {Observable} from 'rxjs';
     MatButton,
     MatIcon,
     MatDialogClose,
-    RouterLink
   ],
   templateUrl: './cart.component.html',
   styleUrl: './cart.component.css',

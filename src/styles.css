@@ -51,9 +51,6 @@ button {
   color: white !important;
 }
 
-.button:hover {
-  background-color: #110101;
-}
 
 mat-card {
   background-color: #ffffff !important;

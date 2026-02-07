@@ -10,9 +10,6 @@ h1 {
 }
 
 .hero-content {
-  /*background-image: url('https://res.cloudinary.com/dc9l6nzid/image/upload/c_thumb,w_200,g_face/v1741256984/hair-shop/logo.jpg');*/
-  /*background-color: white;*/
-  /*background-position: center;*/
   height: 400px;
   display: flex;
   align-items: center;
@@ -35,7 +32,6 @@ h1 {
 .services-section {
   padding: 40px 20px;
   text-align: center;
-  /*background-color: #f8f9fa;*/
 }
 
 .services-slider {
@@ -250,9 +246,15 @@ button {
 }
 
 .admin-btns {
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  width: 100%;
+}
 
+.admin-btns button {
+  width: 100%;
+  justify-content: center;
 }
 
 @media (max-width: 480px) {
@@ -288,8 +290,3 @@ button {
   }
 }
 
-@media (max-width: 768px) {
-  .service-item {
-    margin-right: 15px;
-  }
-}

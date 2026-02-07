@@ -37,7 +37,7 @@ import {AddProductComponent} from '../../components/add-product/add-product.comp
   styleUrl: './products.component.css'
 })
 export class ProductsComponent {
-  public displayedColumns: string[] = ['id', 'name', 'price', 'description', 'actions'];
+  public displayedColumns: string[] = ['id', 'name', 'price', 'quantity', 'description', 'actions'];
   public products: ProductResponse[] = [];
 
 

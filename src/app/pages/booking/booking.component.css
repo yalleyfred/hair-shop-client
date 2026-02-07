@@ -70,10 +70,6 @@ p {
     padding: 10px; /* Reduce padding for smaller screens */
   }
 
-  table {
-    display: inline !important;
-  }
-
 
   mat-vertical-stepper {
     width: 100%; /* Make stepper take full width on small screens */
