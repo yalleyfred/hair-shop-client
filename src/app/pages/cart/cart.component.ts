@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, OnDestroy} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef} from '@angular/core';
 import {AsyncPipe, CurrencyPipe} from '@angular/common';
 import {Router} from '@angular/router';
 import {MatButton} from '@angular/material/button';
@@ -8,8 +8,9 @@ import {CartService} from '../../service/cart/cart.service';
 import {DialogService} from '../../service/dialog/dialog.service';
 import {PaymentComponent} from '../../components/payment/payment.component';
 import {CartItem} from '../../models/cart.model';
-import {Observable, Subject, takeUntil} from 'rxjs';
+import {Observable} from 'rxjs';
 import {ProductsService} from '../../service/products/products.service';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-cart',
@@ -24,10 +25,9 @@ import {ProductsService} from '../../service/products/products.service';
   styleUrl: './cart.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CartComponent implements OnDestroy {
+export class CartComponent {
   public items$: Observable<CartItem[]>;
   public total$: Observable<number>;
-  private readonly destroy$ = new Subject<void>();
   private readonly availableById: Record<string, number> = {};
 
   constructor(
@@ -35,13 +35,14 @@ export class CartComponent implements OnDestroy {
     private readonly productsService: ProductsService,
     private readonly dialogService: DialogService,
     private readonly dialogRef: MatDialogRef<CartComponent>,
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly destroyRef: DestroyRef
   ) {
     this.items$ = this.cartService.items$;
     this.total$ = this.cartService.total$;
 
     this.productsService.products$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntilDestroyed(this.destroyRef))
       .subscribe((products) => {
         products.forEach((product) => {
           this.availableById[product.id] = Number(product.quantity);
@@ -99,8 +100,4 @@ export class CartComponent implements OnDestroy {
     });
   }
 
-  public ngOnDestroy(): void {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
 }

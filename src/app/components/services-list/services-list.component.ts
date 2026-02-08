@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DestroyRef, OnInit} from '@angular/core';
 import {MatAccordion, MatExpansionPanel, MatExpansionPanelDescription, MatExpansionPanelHeader, MatExpansionPanelTitle} from '@angular/material/expansion';
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
 import {MatButton} from '@angular/material/button';
@@ -16,6 +16,7 @@ import {
   MatTable
 } from '@angular/material/table';
 import {forkJoin} from 'rxjs';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {AddServiceComponent} from '../add-service/add-service.component';
 import {DialogService} from '../../service/dialog/dialog.service';
 import {ServicesService} from '../../service/services/services.service';
@@ -55,7 +56,11 @@ export class ServicesListComponent implements OnInit {
   public isLoading = false;
   public displayedColumns: string[] = ['name', 'price', 'duration', 'description', 'actions'];
 
-  constructor(private readonly servicesService: ServicesService, private readonly sideDialogService: DialogService) {
+  constructor(
+    private readonly servicesService: ServicesService,
+    private readonly sideDialogService: DialogService,
+    private readonly destroyRef: DestroyRef
+  ) {
   }
 
   ngOnInit(): void {
@@ -67,7 +72,7 @@ export class ServicesListComponent implements OnInit {
     forkJoin([
       this.servicesService.getCategories(),
       this.servicesService.getServices()
-    ]).subscribe({
+    ]).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: ([categories, services]) => {
         this.categories = categories;
         this.servicesByCategory = categories.reduce((acc: Record<string, SalonService[]>, category) => {
@@ -93,7 +98,7 @@ export class ServicesListComponent implements OnInit {
       data: category ? {categoryId: category.id} : undefined,
     });
 
-    dialogRef.afterClosed().subscribe((shouldRefresh: unknown) => {
+    dialogRef.afterClosed().pipe(takeUntilDestroyed(this.destroyRef)).subscribe((shouldRefresh: unknown) => {
       if (shouldRefresh === true) {
         this.loadData();
       }
@@ -112,7 +117,7 @@ export class ServicesListComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe((shouldRefresh: unknown) => {
+    dialogRef.afterClosed().pipe(takeUntilDestroyed(this.destroyRef)).subscribe((shouldRefresh: unknown) => {
       if (shouldRefresh === true) {
         this.loadData();
       }
@@ -124,9 +129,11 @@ export class ServicesListComponent implements OnInit {
     if (!confirmed) {
       return;
     }
-    this.servicesService.deleteService(service.id).subscribe(() => {
-      this.loadData();
-    });
+    this.servicesService.deleteService(service.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.loadData();
+      });
   }
 
   public editCategory(category: ServiceCategory): void {
@@ -135,9 +142,11 @@ export class ServicesListComponent implements OnInit {
       return;
     }
     const description = prompt('Update category description', category.description || '');
-    this.servicesService.updateCategory(category.id, {name: name.trim(), description: description || undefined}).subscribe(() => {
-      this.loadData();
-    });
+    this.servicesService.updateCategory(category.id, {name: name.trim(), description: description || undefined})
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.loadData();
+      });
   }
 
   public deleteCategory(category: ServiceCategory): void {
@@ -149,8 +158,10 @@ export class ServicesListComponent implements OnInit {
     if (!confirmed) {
       return;
     }
-    this.servicesService.deleteCategory(category.id).subscribe(() => {
-      this.loadData();
-    });
+    this.servicesService.deleteCategory(category.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(() => {
+        this.loadData();
+      });
   }
 }

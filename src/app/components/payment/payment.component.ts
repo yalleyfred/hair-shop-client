@@ -1,4 +1,4 @@
-import {Component, Inject, OnDestroy, OnInit} from '@angular/core';
+import {Component, DestroyRef, Inject, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {Socket} from 'socket.io-client';
 import {
@@ -14,6 +14,7 @@ import {CartService} from '../../service/cart/cart.service';
 import {MAT_DIALOG_DATA, MatDialogClose} from '@angular/material/dialog';
 import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 
 @Component({
@@ -60,6 +61,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
     private readonly paymentService: PaymentService,
     private readonly cartService: CartService,
     private readonly productsService: ProductsService,
+    private readonly destroyRef: DestroyRef,
     protected readonly router: Router,
     @Inject(MAT_DIALOG_DATA) private readonly dialogData: { amount?: number; email?: string; phone?: string } | null
   ) {
@@ -75,6 +77,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
     this.stopRealtime();
     if (!this.success && typeof window !== 'undefined') {
       window.localStorage.removeItem('payment_reference');
+      window.localStorage.removeItem('payment_in_progress');
     }
   }
 
@@ -90,7 +93,9 @@ export class PaymentComponent implements OnInit, OnDestroy {
     });
 
     // Add conditional validators based on payment method
-    this.paymentForm.get('paymentMethod')?.valueChanges.subscribe(method => {
+    this.paymentForm.get('paymentMethod')?.valueChanges
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(method => {
       this.selectedPaymentMethod = method;
 
       if (method === 'mobile-money') {
@@ -177,13 +182,15 @@ export class PaymentComponent implements OnInit, OnDestroy {
   }
 
   public processMomoPayment(paymentData: MobileMoneyPaymentData): void {
-    this.paymentService.initiateMomoPayment(paymentData).subscribe({
+    this.paymentService.initiateMomoPayment(paymentData)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
       next: (response: any) => {
         this.loading = false;
         const data = response?.data ?? {};
         const reference = data.reference;
         const status = (data.status || '').toLowerCase();
-        const requiresOtp = data?.requires_otp === true || status === 'otp' || status === 'requires_otp';
+        const requiresOtp = data?.requires_otp === true || ['otp', 'requires_otp', 'send_otp'].includes(status);
         const instructions = data.display_text || response?.message || 'Check your phone to approve the payment.';
 
         if (!response?.status && !reference) {
@@ -193,6 +200,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
         if (reference) {
           localStorage.setItem('payment_reference', reference);
+          localStorage.setItem('payment_in_progress', 'true');
           this.pendingReference = reference;
           this.pendingMessage = instructions;
         }
@@ -208,18 +216,11 @@ export class PaymentComponent implements OnInit, OnDestroy {
           return;
         }
 
-        if (['pending', 'otp', 'requires_otp', 'processing'].includes(status) || response?.status === true) {
-          this.otpRequired = requiresOtp;
-          const otpControl = this.paymentForm.get('otp');
-          if (this.otpRequired) {
-            otpControl?.setValidators([Validators.required, Validators.pattern(/^\d{4,6}$/)]);
-          } else {
-            otpControl?.clearValidators();
-            if (reference) {
-              this.startTracking(reference);
-            }
+        if (['pending', 'otp', 'requires_otp', 'send_otp', 'processing'].includes(status) || response?.status === true) {
+          this.setOtpRequired(requiresOtp, instructions);
+          if (!requiresOtp && reference) {
+            this.startTracking(reference);
           }
-          otpControl?.updateValueAndValidity({emitEvent: false});
           return;
         }
 
@@ -233,12 +234,15 @@ export class PaymentComponent implements OnInit, OnDestroy {
   }
 
   public processBankTransfer(paymentData: BankTransferPaymentData): void {
-    this.paymentService.initiateBankTransfer(paymentData).subscribe({
+    this.paymentService.initiateBankTransfer(paymentData)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
       next: (response: any) => {
         this.loading = false;
         if (response.status) {
           // Store the reference for verification
           localStorage.setItem('payment_reference', response.data.reference);
+          localStorage.setItem('payment_in_progress', 'true');
           this.startTracking(response.data.reference);
 
           // For bank transfers, we show the transfer details
@@ -262,12 +266,15 @@ export class PaymentComponent implements OnInit, OnDestroy {
   }
 
   public processCardPayment(paymentData: CardPaymentData): void {
-    this.paymentService.initiateCardPayment(paymentData).subscribe({
+    this.paymentService.initiateCardPayment(paymentData)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
       next: (response: any) => {
         this.loading = false;
         if (response.status) {
           // Store the reference for verification
           localStorage.setItem('payment_reference', response.data.reference);
+          localStorage.setItem('payment_in_progress', 'true');
           this.startTracking(response.data.reference);
 
           // For card payments, we redirect to the authorization URL
@@ -305,7 +312,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
     this.paymentService.submitMomoOtp({
       reference: this.pendingReference,
       otp: otpControl?.value
-    }).subscribe({
+    }).pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: (response: any) => {
         this.loading = false;
         const status = (response.data?.status || '').toLowerCase();
@@ -351,7 +358,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
           ? dataStatus.toLowerCase()
           : '';
       const message = payload?.message || payload?.data?.display_text;
-      const requiresOtp = payload?.data?.requires_otp === true || status === 'otp' || status === 'requires_otp';
+      const requiresOtp = payload?.data?.requires_otp === true || ['otp', 'requires_otp', 'send_otp'].includes(status);
       const isSuccess = status === 'success' || rawStatus === true;
       const isFail = ['failed', 'cancelled'].includes(status);
 
@@ -364,10 +371,9 @@ export class PaymentComponent implements OnInit, OnDestroy {
         this.verifying = false;
         this.stopRealtime();
       } else if (requiresOtp) {
-        this.otpRequired = true;
-        this.pendingMessage = message || 'Enter the OTP sent to your phone.';
+        this.setOtpRequired(true, message || 'Enter the OTP sent to your phone.');
       } else if (status) {
-        this.otpRequired = false;
+        this.setOtpRequired(false, message || 'Awaiting confirmation...');
         this.pendingMessage = message || 'Awaiting confirmation...';
       }
     };
@@ -395,7 +401,9 @@ export class PaymentComponent implements OnInit, OnDestroy {
     }
 
     this.pollingIntervalId = setInterval(() => {
-      this.paymentService.verifyPayment(reference).subscribe({
+      this.paymentService.verifyPayment(reference)
+        .pipe(takeUntilDestroyed(this.destroyRef))
+        .subscribe({
         next: (response: any) => {
           const status = (response.data?.status || '').toLowerCase();
           const isSuccess = status === 'success' || (response?.status === true && !status);
@@ -408,6 +416,9 @@ export class PaymentComponent implements OnInit, OnDestroy {
             this.pendingReference = null;
             this.otpRequired = false;
             this.verifying = false;
+            this.stopPolling();
+          } else if (response.data?.requires_otp === true || ['otp', 'requires_otp', 'send_otp'].includes(status)) {
+            this.setOtpRequired(true, response.data?.display_text || 'Enter the OTP sent to your phone.');
             this.stopPolling();
           } else {
             this.pendingMessage = response.data?.display_text || 'Awaiting confirmation on your phone...';
@@ -455,6 +466,20 @@ export class PaymentComponent implements OnInit, OnDestroy {
     this.verifying = false;
   }
 
+  private setOtpRequired(required: boolean, message?: string): void {
+    this.otpRequired = required;
+    if (message) {
+      this.pendingMessage = message;
+    }
+    const otpControl = this.paymentForm.get('otp');
+    if (required) {
+      otpControl?.setValidators([Validators.required, Validators.pattern(/^\d{4,6}$/)]);
+    } else {
+      otpControl?.clearValidators();
+    }
+    otpControl?.updateValueAndValidity({emitEvent: false});
+  }
+
   private buildProductsPayload(): PaymentProduct[] {
     return this.cartService.getItems().map((item) => ({
       productId: item.productId,
@@ -469,6 +494,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
     this.verifying = false;
     this.stopRealtime();
     localStorage.removeItem('payment_reference');
+    localStorage.removeItem('payment_in_progress');
     this.cartService.clear();
     this.productsService.refreshProducts();
     this.scheduleProductRefresh();
@@ -476,7 +502,8 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
   private resumePendingVerification(): void {
     const reference = localStorage.getItem('payment_reference');
-    if (reference && !this.pendingReference && !this.success) {
+    const inProgress = localStorage.getItem('payment_in_progress') === 'true';
+    if (reference && inProgress && !this.pendingReference && !this.success) {
       this.startTracking(reference);
     }
   }

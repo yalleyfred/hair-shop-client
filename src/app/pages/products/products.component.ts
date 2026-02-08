@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, DestroyRef} from '@angular/core';
 import {MatIconButton} from "@angular/material/button";
 import {
   MatCell,
@@ -15,6 +15,7 @@ import {ProductResponse} from '../../models/product.model';
 import {ProductsService} from '../../service/products/products.service';
 import {DialogService} from '../../service/dialog/dialog.service';
 import {AddProductComponent} from '../../components/add-product/add-product.component';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-products',
@@ -41,8 +42,14 @@ export class ProductsComponent {
   public products: ProductResponse[] = [];
 
 
-  constructor(private readonly productService: ProductsService, private readonly sideDialogService: DialogService) {
-    this.productService.products$.subscribe((products: ProductResponse[]) => this.products = products);
+  constructor(
+    private readonly productService: ProductsService,
+    private readonly sideDialogService: DialogService,
+    private readonly destroyRef: DestroyRef
+  ) {
+    this.productService.products$
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((products: ProductResponse[]) => this.products = products);
     this.productService.refreshProducts();
   }
 
@@ -53,8 +60,10 @@ export class ProductsComponent {
   }
 
   public deleteProduct(product: ProductResponse) {
-    this.productService.deleteProduct(product, product.id).subscribe((res: ProductResponse) => {
-      this.products = this.products.filter((data: ProductResponse) => data.id !== res.id)
-    })
+    this.productService.deleteProduct(product, product.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((res: ProductResponse) => {
+        this.products = this.products.filter((data: ProductResponse) => data.id !== res.id)
+      })
   }
 }

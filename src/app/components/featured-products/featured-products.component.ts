@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef} from '@angular/core';
 import {ProductsService} from '../../service/products/products.service';
 import {map, Observable} from 'rxjs';
 import {CartService} from '../../service/cart/cart.service';
@@ -6,6 +6,7 @@ import {ProductResponse} from '../../models/product.model';
 import {MatSnackBar, MatSnackBarModule} from '@angular/material/snack-bar';
 import {DialogService} from '../../service/dialog/dialog.service';
 import { AsyncPipe, CurrencyPipe } from '@angular/common';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-featured-products',
@@ -25,7 +26,8 @@ export class FeaturedProductsComponent {
     private readonly productService: ProductsService,
     private readonly cartService: CartService,
     private readonly snackBar: MatSnackBar,
-    private readonly dialogService: DialogService
+    private readonly dialogService: DialogService,
+    private readonly destroyRef: DestroyRef
   ) {
     this.products$ = this.productService.products$.pipe(
       map((products) => products.filter((product) => Number(product.quantity) > 0))
@@ -43,7 +45,7 @@ export class FeaturedProductsComponent {
       horizontalPosition: 'right',
       verticalPosition: 'top'
     });
-    snack.onAction().subscribe(() => {
+    snack.onAction().pipe(takeUntilDestroyed(this.destroyRef)).subscribe(() => {
       this.openCart();
     });
   }
