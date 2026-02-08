@@ -73,6 +73,9 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.stopRealtime();
+    if (!this.success && typeof window !== 'undefined') {
+      window.localStorage.removeItem('payment_reference');
+    }
   }
 
   public createForm(): void {
