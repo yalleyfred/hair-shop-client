@@ -4,10 +4,13 @@ import {Socket} from 'socket.io-client';
 import {
   MobileMoneyPaymentData,
   BankTransferPaymentData,
-  CardPaymentData
+  CardPaymentData,
+  PaymentProduct
 } from '../../models/payment.model';
 import {Router} from '@angular/router';
 import {PaymentService} from '../../service/payment/payment.service';
+import {ProductsService} from '../../service/products/products.service';
+import {CartService} from '../../service/cart/cart.service';
 import {MAT_DIALOG_DATA, MatDialogClose} from '@angular/material/dialog';
 import {MatButton} from '@angular/material/button';
 import {MatIcon} from '@angular/material/icon';
@@ -55,6 +58,8 @@ export class PaymentComponent implements OnInit, OnDestroy {
   constructor(
     private readonly fb: FormBuilder,
     private readonly paymentService: PaymentService,
+    private readonly cartService: CartService,
+    private readonly productsService: ProductsService,
     protected readonly router: Router,
     @Inject(MAT_DIALOG_DATA) private readonly dialogData: { amount?: number; email?: string; phone?: string } | null
   ) {
@@ -63,6 +68,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.prefillFromDialog();
+    this.resumePendingVerification();
   }
 
   ngOnDestroy(): void {
@@ -144,7 +150,8 @@ export class PaymentComponent implements OnInit, OnDestroy {
     const commonPaymentData = {
       amount: formValues.amount,
       email: formValues.email,
-      callback_url: `${window.location.origin}/payment/callback`
+      callback_url: `${window.location.origin}/payment/callback`,
+      products: this.buildProductsPayload()
     };
 
     switch (method) {
@@ -188,10 +195,13 @@ export class PaymentComponent implements OnInit, OnDestroy {
         }
 
         if (status === 'success') {
-          this.success = true;
-          this.pendingReference = null;
-          this.otpRequired = false;
-          this.stopRealtime();
+          if (reference) {
+            this.pendingReference = reference;
+            this.pendingMessage = instructions || 'Payment completed. Confirming...';
+            this.startTracking(reference);
+            return;
+          }
+          this.handleSuccess();
           return;
         }
 
@@ -202,7 +212,9 @@ export class PaymentComponent implements OnInit, OnDestroy {
             otpControl?.setValidators([Validators.required, Validators.pattern(/^\d{4,6}$/)]);
           } else {
             otpControl?.clearValidators();
-            this.startTracking(reference);
+            if (reference) {
+              this.startTracking(reference);
+            }
           }
           otpControl?.updateValueAndValidity({emitEvent: false});
           return;
@@ -224,6 +236,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
         if (response.status) {
           // Store the reference for verification
           localStorage.setItem('payment_reference', response.data.reference);
+          this.startTracking(response.data.reference);
 
           // For bank transfers, we show the transfer details
           if (response.data.transfer_details) {
@@ -252,6 +265,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
         if (response.status) {
           // Store the reference for verification
           localStorage.setItem('payment_reference', response.data.reference);
+          this.startTracking(response.data.reference);
 
           // For card payments, we redirect to the authorization URL
           if (response.data.authorization_url) {
@@ -339,11 +353,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
       const isFail = ['failed', 'cancelled'].includes(status);
 
       if (isSuccess) {
-        this.success = true;
-        this.pendingReference = null;
-        this.otpRequired = false;
-        this.verifying = false;
-        this.stopRealtime();
+        this.handleSuccess();
       } else if (isFail) {
         this.error = message || 'Payment failed.';
         this.pendingReference = null;
@@ -389,11 +399,7 @@ export class PaymentComponent implements OnInit, OnDestroy {
           const isFail = ['failed', 'cancelled'].includes(status);
 
           if (isSuccess) {
-            this.success = true;
-            this.pendingReference = null;
-            this.otpRequired = false;
-            this.verifying = false;
-            this.stopPolling();
+            this.handleSuccess();
           } else if (isFail) {
             this.error = 'Payment was not completed successfully.';
             this.pendingReference = null;
@@ -444,5 +450,39 @@ export class PaymentComponent implements OnInit, OnDestroy {
       this.socket = undefined;
     }
     this.verifying = false;
+  }
+
+  private buildProductsPayload(): PaymentProduct[] {
+    return this.cartService.getItems().map((item) => ({
+      productId: item.productId,
+      quantity: item.quantity
+    }));
+  }
+
+  private handleSuccess(): void {
+    this.success = true;
+    this.pendingReference = null;
+    this.otpRequired = false;
+    this.verifying = false;
+    this.stopRealtime();
+    localStorage.removeItem('payment_reference');
+    this.cartService.clear();
+    this.productsService.refreshProducts();
+    this.scheduleProductRefresh();
+  }
+
+  private resumePendingVerification(): void {
+    const reference = localStorage.getItem('payment_reference');
+    if (reference && !this.pendingReference && !this.success) {
+      this.startTracking(reference);
+    }
+  }
+
+  private scheduleProductRefresh(): void {
+    // Backend stock updates can be delayed; retry a few times to keep UI in sync.
+    const delays = [1500, 3000, 5000];
+    delays.forEach((delay) => {
+      setTimeout(() => this.productsService.refreshProducts(), delay);
+    });
   }
 }
