@@ -64,6 +64,10 @@ export class CartService {
     this.updateItems([]);
   }
 
+  public getItems(): CartItem[] {
+    return [...this.itemsSubject.value];
+  }
+
   private updateItems(items: CartItem[]): void {
     this.itemsSubject.next(items);
     if (typeof window === 'undefined') {

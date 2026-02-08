@@ -1,6 +1,12 @@
+export interface PaymentProduct {
+  productId: string;
+  quantity: number;
+}
+
 export interface MobileMoneyPaymentData {
   amount: number;
   email: string;
+  products?: PaymentProduct[];
   mobile_money: {
     phone: string;
     provider: string; // 'mtn' | 'vodafone' | 'airtel'
@@ -12,6 +18,7 @@ export interface MobileMoneyPaymentData {
 export interface BankTransferPaymentData {
   amount: number;
   email: string;
+  products?: PaymentProduct[];
   reference?: string;
   callback_url?: string;
 }
@@ -19,6 +26,7 @@ export interface BankTransferPaymentData {
 export interface CardPaymentData {
   amount: number;
   email: string;
+  products?: PaymentProduct[];
   reference?: string;
   callback_url?: string;
 }
