@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DestroyRef, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatCard, MatCardContent, MatCardHeader, MatCardTitle} from '@angular/material/card';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
@@ -10,6 +10,7 @@ import {MatDivider} from '@angular/material/divider';
 import {MatProgressSpinner} from '@angular/material/progress-spinner';
 import {ServicesService} from '../../service/services/services.service';
 import {ServiceCategory} from '../../models/service.model';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-manage-categories',
@@ -43,7 +44,11 @@ export class ManageCategoriesComponent implements OnInit {
   public editSubmitted = false;
   public errorMessage = '';
 
-  constructor(private readonly fb: FormBuilder, private readonly servicesService: ServicesService) {
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly servicesService: ServicesService,
+    private readonly destroyRef: DestroyRef
+  ) {
     this.categoryForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],
@@ -60,9 +65,11 @@ export class ManageCategoriesComponent implements OnInit {
   }
 
   private loadCategories(): void {
-    this.servicesService.getCategories().subscribe((categories: ServiceCategory[]) => {
-      this.categories = categories;
-    });
+    this.servicesService.getCategories()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((categories: ServiceCategory[]) => {
+        this.categories = categories;
+      });
   }
 
   public createCategory(): void {
@@ -72,7 +79,9 @@ export class ManageCategoriesComponent implements OnInit {
     }
     this.isSaving = true;
     this.errorMessage = '';
-    this.servicesService.createCategory(this.categoryForm.value).subscribe({
+    this.servicesService.createCategory(this.categoryForm.value)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
       next: (category: ServiceCategory) => {
         this.categories = [category, ...this.categories];
         this.loadCategories();
@@ -111,7 +120,9 @@ export class ManageCategoriesComponent implements OnInit {
       name: this.editForm.value.name.trim(),
       description: this.editForm.value.description || undefined
     };
-    this.servicesService.updateCategory(this.editingCategoryId, payload).subscribe({
+    this.servicesService.updateCategory(this.editingCategoryId, payload)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
       next: () => {
         this.isUpdating = false;
         this.cancelEdit();
@@ -130,7 +141,9 @@ export class ManageCategoriesComponent implements OnInit {
       return;
     }
     this.isDeletingId = category.id;
-    this.servicesService.deleteCategory(category.id).subscribe({
+    this.servicesService.deleteCategory(category.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
       next: () => {
         this.categories = this.categories.filter((c) => c.id !== category.id);
         this.loadCategories();

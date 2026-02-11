@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
+import {Component, DestroyRef} from '@angular/core';
 import {BookingResponse} from '../../models/booking.model';
 import {BookingService} from '../../service/bookings/bookings.service';
-import {Subscription} from 'rxjs';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {
   MatCell,
   MatCellDef,
@@ -43,10 +43,13 @@ export class BookingListComponent {
   public bookings: BookingResponse[] = [];
   public bookingStatus = false;
 
-  public subscription = new Subscription();
-
-  constructor(private readonly bookingService: BookingService) {
-    this.bookingService.getAllBooking().subscribe(bookings => this.bookings = bookings);
+  constructor(
+    private readonly bookingService: BookingService,
+    private readonly destroyRef: DestroyRef
+  ) {
+    this.bookingService.getAllBooking()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe(bookings => this.bookings = bookings);
   }
 
   // public editBooking(booking: Booking) {
@@ -55,9 +58,11 @@ export class BookingListComponent {
   // }
 
   public deleteBooking(booking: BookingResponse) {
-    this.bookingService.deleteBooking(booking, booking.id).subscribe((res: BookingResponse) => {
-      this.bookings = this.bookings.filter((data: BookingResponse) => data.id !== res.id)
-    })
+    this.bookingService.deleteBooking(booking, booking.id)
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((res: BookingResponse) => {
+        this.bookings = this.bookings.filter((data: BookingResponse) => data.id !== res.id)
+      })
   }
 
 }

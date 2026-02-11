@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, DestroyRef, OnInit} from '@angular/core';
 import {MatFormField} from '@angular/material/form-field';
 import {FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatButton} from '@angular/material/button';
@@ -21,6 +21,7 @@ import {PaymentComponent} from '../../components/payment/payment.component';
 import {ServicesService} from '../../service/services/services.service';
 import {SalonService, ServiceCategory} from '../../models/service.model';
 import {forkJoin} from 'rxjs';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-booking',
@@ -73,7 +74,8 @@ export class BookingComponent implements OnInit {
     private readonly _formBuilder: FormBuilder,
     public bookingService: BookingService,
     private readonly sideDailogService: DialogService,
-    private readonly servicesService: ServicesService
+    private readonly servicesService: ServicesService,
+    private readonly destroyRef: DestroyRef
   ) {
     this.serviceFormGroup = this._formBuilder.group({
       service: ['', Validators.required],
@@ -98,7 +100,7 @@ export class BookingComponent implements OnInit {
     forkJoin([
       this.servicesService.getCategories(),
       this.servicesService.getServices()
-    ]).subscribe(([categories, services]) => {
+    ]).pipe(takeUntilDestroyed(this.destroyRef)).subscribe(([categories, services]) => {
       this.categories = categories;
       this.services = services;
     });
@@ -128,7 +130,7 @@ export class BookingComponent implements OnInit {
         name: this.detailsFormGroup.value.name,
         phone: this.detailsFormGroup.value.phone,
         email: this.detailsFormGroup.value.email,
-      }).subscribe((res) => {
+      }).pipe(takeUntilDestroyed(this.destroyRef)).subscribe((res) => {
         console.log('res', res);
       })
     }
@@ -138,6 +140,10 @@ export class BookingComponent implements OnInit {
   public makePayment() {
     if (!this.selectedService) {
       return;
+    }
+    if (typeof window !== 'undefined') {
+      window.localStorage.removeItem('payment_reference');
+      window.localStorage.removeItem('payment_in_progress');
     }
     const totalWithCharges = Number((this.selectedService.price * 1.01).toFixed(2));
     this.sideDailogService.open(PaymentComponent, {

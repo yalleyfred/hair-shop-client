@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, DestroyRef, Inject, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatFormField, MatLabel} from '@angular/material/form-field';
 import {MatInput} from '@angular/material/input';
@@ -11,6 +11,7 @@ import {MAT_DIALOG_DATA, MatDialogClose, MatDialogRef} from '@angular/material/d
 import {MatIcon} from '@angular/material/icon';
 import {ServicesService} from '../../service/services/services.service';
 import {CreateServiceCategoryPayload, SalonService, ServiceCategory} from '../../models/service.model';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-add-service',
@@ -45,6 +46,7 @@ export class AddServiceComponent implements OnInit {
     private readonly fb: FormBuilder,
     private readonly servicesService: ServicesService,
     private readonly dialogRef: MatDialogRef<AddServiceComponent>,
+    private readonly destroyRef: DestroyRef,
     @Inject(MAT_DIALOG_DATA) protected readonly dialogData?: Partial<SalonService>
   ) {
     this.isEditMode = !!dialogData?.id;
@@ -67,13 +69,15 @@ export class AddServiceComponent implements OnInit {
   }
 
   private loadCategories(): void {
-    this.servicesService.getCategories().subscribe((categories: ServiceCategory[]) => {
-      this.categories = categories;
-      // If we opened the dialog with a preset category, select it.
-      if (this.dialogData?.categoryId) {
-        this.serviceForm.get('categoryId')?.setValue(this.dialogData.categoryId);
-      }
-    });
+    this.servicesService.getCategories()
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe((categories: ServiceCategory[]) => {
+        this.categories = categories;
+        // If we opened the dialog with a preset category, select it.
+        if (this.dialogData?.categoryId) {
+          this.serviceForm.get('categoryId')?.setValue(this.dialogData.categoryId);
+        }
+      });
   }
 
   public onSubmit(): void {
@@ -87,7 +91,7 @@ export class AddServiceComponent implements OnInit {
       ? this.servicesService.updateService(this.dialogData.id, payload)
       : this.servicesService.createService(payload);
 
-    request$.subscribe({
+    request$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe({
       next: () => {
         this.isSaving = false;
         this.serviceForm.reset();

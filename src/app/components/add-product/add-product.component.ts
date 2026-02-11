@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {Component, DestroyRef, Inject} from '@angular/core';
 import {MatError, MatFormField, MatLabel} from '@angular/material/form-field';
 import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatInput} from '@angular/material/input';
@@ -9,6 +9,7 @@ import {MatIcon} from '@angular/material/icon';
 import {ProductsService} from '../../service/products/products.service';
 import {MAT_DIALOG_DATA, MatDialogClose} from '@angular/material/dialog';
 import {ProductResponse} from '../../models/product.model';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-add-product',
@@ -40,6 +41,7 @@ export class AddProductComponent {
   constructor(
     private readonly fb: FormBuilder,
     private readonly productsService: ProductsService,
+    private readonly destroyRef: DestroyRef,
     @Inject(MAT_DIALOG_DATA) protected readonly dialogData: ProductResponse | null
   ) {
     this.isEditMode = !!this.dialogData;
@@ -99,7 +101,7 @@ export class AddProductComponent {
       ? this.productsService.updateProduct(formData, this.dialogData.id)
       : this.productsService.createProduct(formData);
 
-    request$.subscribe(
+    request$.pipe(takeUntilDestroyed(this.destroyRef)).subscribe(
       () => {
         this.isSaving = false;
         this.submitted = false;
