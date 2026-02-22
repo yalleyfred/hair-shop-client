@@ -5,6 +5,7 @@ import {
   MobileMoneyPaymentData,
   BankTransferPaymentData,
   CardPaymentData,
+  PaymentMetadata,
   PaymentProduct
 } from '../../models/payment.model';
 import {Router} from '@angular/router';
@@ -63,7 +64,12 @@ export class PaymentComponent implements OnInit, OnDestroy {
     private readonly productsService: ProductsService,
     private readonly destroyRef: DestroyRef,
     protected readonly router: Router,
-    @Inject(MAT_DIALOG_DATA) private readonly dialogData: { amount?: number; email?: string; phone?: string } | null
+    @Inject(MAT_DIALOG_DATA) private readonly dialogData: {
+      amount?: number;
+      email?: string;
+      phone?: string;
+      metadata?: PaymentMetadata;
+    } | null
   ) {
     this.createForm();
   }
@@ -159,7 +165,8 @@ export class PaymentComponent implements OnInit, OnDestroy {
       amount: formValues.amount,
       email: formValues.email,
       callback_url: `${window.location.origin}/payment/callback`,
-      products: this.buildProductsPayload()
+      products: this.buildProductsPayload(),
+      metadata: this.buildMetadataPayload()
     };
 
     switch (method) {
@@ -485,6 +492,10 @@ export class PaymentComponent implements OnInit, OnDestroy {
       productId: item.productId,
       quantity: item.quantity
     }));
+  }
+
+  private buildMetadataPayload(): PaymentMetadata | undefined {
+    return this.dialogData?.metadata;
   }
 
   private handleSuccess(): void {
