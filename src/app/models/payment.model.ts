@@ -3,10 +3,26 @@ export interface PaymentProduct {
   quantity: number;
 }
 
+export type PaymentOrderType = 'product' | 'service_booking';
+
+export interface ServiceBookingMetadata {
+  serviceType: string;
+  appointmentDate: string;
+  appointmentTime: string;
+}
+
+export interface PaymentMetadata {
+  orderType: PaymentOrderType;
+  customerName?: string;
+  customerPhone?: string;
+  booking?: ServiceBookingMetadata;
+}
+
 export interface MobileMoneyPaymentData {
   amount: number;
   email: string;
   products?: PaymentProduct[];
+  metadata?: PaymentMetadata;
   mobile_money: {
     phone: string;
     provider: string; // 'mtn' | 'vodafone' | 'airtel'
@@ -19,6 +35,7 @@ export interface BankTransferPaymentData {
   amount: number;
   email: string;
   products?: PaymentProduct[];
+  metadata?: PaymentMetadata;
   reference?: string;
   callback_url?: string;
 }
@@ -27,6 +44,7 @@ export interface CardPaymentData {
   amount: number;
   email: string;
   products?: PaymentProduct[];
+  metadata?: PaymentMetadata;
   reference?: string;
   callback_url?: string;
 }

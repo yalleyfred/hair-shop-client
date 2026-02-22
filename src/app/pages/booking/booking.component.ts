@@ -20,6 +20,7 @@ import {DialogService} from '../../service/dialog/dialog.service';
 import {PaymentComponent} from '../../components/payment/payment.component';
 import {ServicesService} from '../../service/services/services.service';
 import {SalonService, ServiceCategory} from '../../models/service.model';
+import {PaymentMetadata} from '../../models/payment.model';
 import {forkJoin} from 'rxjs';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 
@@ -141,6 +142,17 @@ export class BookingComponent implements OnInit {
     if (!this.selectedService) {
       return;
     }
+    if (!this.dateTimeFormGroup.valid || !this.detailsFormGroup.valid) {
+      this.dateTimeFormGroup.markAllAsTouched();
+      this.detailsFormGroup.markAllAsTouched();
+      return;
+    }
+
+    const metadata = this.buildServicePaymentMetadata();
+    if (!metadata) {
+      return;
+    }
+
     if (typeof window !== 'undefined') {
       window.localStorage.removeItem('payment_reference');
       window.localStorage.removeItem('payment_in_progress');
@@ -150,8 +162,48 @@ export class BookingComponent implements OnInit {
       data: {
         amount: totalWithCharges,
         email: this.detailsFormGroup.get('email')?.value || '',
-        phone: this.detailsFormGroup.get('phone')?.value || ''
+        phone: this.detailsFormGroup.get('phone')?.value || '',
+        metadata
       }
     });
+  }
+
+  private buildServicePaymentMetadata(): PaymentMetadata | null {
+    if (!this.selectedService) {
+      return null;
+    }
+    const appointmentDate = this.dateTimeFormGroup.get('date')?.value;
+    const appointmentTime = this.dateTimeFormGroup.get('time')?.value;
+    const name = this.detailsFormGroup.get('name')?.value;
+    const email = this.detailsFormGroup.get('email')?.value;
+    const phone = this.detailsFormGroup.get('phone')?.value;
+
+    if (!appointmentDate || !appointmentTime || !name || !email || !phone) {
+      return null;
+    }
+
+    const normalizedDate = this.formatDateForBooking(appointmentDate);
+
+    return {
+      orderType: 'service_booking',
+      customerName: name,
+      customerPhone: phone,
+      booking: {
+        serviceType: this.selectedService.name,
+        appointmentDate: normalizedDate,
+        appointmentTime
+      }
+    };
+  }
+
+  private formatDateForBooking(value: Date | string): string {
+    const date = new Date(value);
+    if (Number.isNaN(date.getTime())) {
+      return String(value);
+    }
+    const year = date.getFullYear();
+    const month = `${date.getMonth() + 1}`.padStart(2, '0');
+    const day = `${date.getDate()}`.padStart(2, '0');
+    return `${year}-${month}-${day}`;
   }
 }
