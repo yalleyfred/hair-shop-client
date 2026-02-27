@@ -14,7 +14,7 @@
                 @for (service of services; track service.id) {
                   @if (service.categoryId === category.id) {
                     <mat-option (click)="selectService(service)" [value]="service.id">
-                      {{ service.name }} — {{ service.price | currency }}
+                      {{ service.name }} — {{ service.price | currency:'GHS' }}
                     </mat-option>
                   }
                 }
@@ -30,7 +30,7 @@
             </mat-card-header>
             <mat-card-content>
               <p>{{ selectedService.description }}</p>
-              <p><strong>Price:</strong> {{ selectedService.price | currency }}</p>
+              <p><strong>Price:</strong> {{ selectedService.price | currency:'GHS' }}</p>
               @if (selectedService.durationMinutes) {
                 <p><strong>Duration:</strong> {{ selectedService.durationMinutes }} mins</p>
               }
